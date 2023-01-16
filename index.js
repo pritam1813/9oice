@@ -7,7 +7,8 @@ const port = 3000;
 //Creating Express app
 const app = express();
 
-
+//Importing router from routes folder index file and telling express app to use those routes
+app.use('/', require('./routes'));
 
 
 
