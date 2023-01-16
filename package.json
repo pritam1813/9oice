@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/pritam1813/9oice/issues"
   },
-  "homepage": "https://github.com/pritam1813/9oice#readme"
+  "homepage": "https://github.com/pritam1813/9oice#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
