@@ -10,5 +10,8 @@ const homeController = require('../contollers/home_conroller');
 //Defining GET actions for different Routes
 router.get('/', homeController.home);
 
+//Access users.js for handling "/user" route Requests
+router.use('/user', require('./users'));
+
 //Export router to use in main index.js
 module.exports = router;
