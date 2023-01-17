@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 //Importing User Controller
-const userController = require('../contollers/users_controller');
+const userController = require('../controllers/users_controller');
 
 //Using GET Method to access Different User Routes
 router.get('/profile', userController.profile);

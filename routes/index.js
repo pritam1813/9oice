@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 //Importing home_controller from the controller folder
-const homeController = require('../contollers/home_conroller'); 
+const homeController = require('../controllers/home_controller'); 
 
 //Defining GET actions for different Routes
 router.get('/', homeController.home);
