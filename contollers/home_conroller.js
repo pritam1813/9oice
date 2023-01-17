@@ -2,5 +2,8 @@
 
 //Root route action
 module.exports.home = function(req,res){
-    return res.end("<h1>For Express App</h1>");
+    //Rendering Home.ejs from the views folder
+    return res.render('Home', {
+        title: "Home"
+    });
 };
