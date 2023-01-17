@@ -10,8 +10,9 @@ const app = express();
 //Importing router from routes folder index file and telling express app to use those routes
 app.use('/', require('./routes'));
 
-
-
+//Setting View Engine
+app.set('view engine', 'ejs');
+app.set('views', './views'); //Setting views in the 'views' folder
 
 //Making the app to listen/run on default port
 app.listen(port, function(err) /*Callback Function*/{
