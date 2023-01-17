@@ -1,16 +1,22 @@
 <div class="mx-auto d-block w-25 p-3">
-    <form>
+
+    <%# Sign Up Form %>
+    <form action="/user/create" method="POST">
         <div class="mb-3">
             <label for="InputName" class="form-label">Name</label>
-            <input type="text" class="form-control" id="InputName">
+            <input type="text" name="name" class="form-control" id="InputName" required>
           </div>
         <div class="mb-3">
           <label for="InputEmail1" class="form-label">Email address</label>
-          <input type="email" class="form-control" id="InputEmail1">
+          <input type="email" name="email" class="form-control" id="InputEmail1" required>
         </div>
         <div class="mb-3">
           <label for="InputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" id="InputPassword1">
+          <input type="password" name="password" class="form-control" id="InputPassword1" required>
+        </div>
+        <div class="mb-3">
+            <label for="InputConfirmPassword1" class="form-label">Confirm Password</label>
+            <input type="password" name="confirm-password" class="form-control" id="InputConfirmPassword1" required>
         </div>
         <button type="submit" class="btn btn-primary">Sign Up</button>
       </form>
