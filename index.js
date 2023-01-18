@@ -6,6 +6,9 @@ const express = require('express');
 //Default Port
 const port = 3000;
 
+//Importing the Database
+const db = require('./config/mongoose');
+
 //Creating Express app
 const app = express();
 
