@@ -1,21 +1,17 @@
-/* Imports and const */
-
-//Require Express from Node Module 
-const express = require('express');
-
-//Default Port
-const port = 3000;
-
-//Importing the Database
-const db = require('./config/mongoose');
-
-//Creating Express app
-const app = express();
-
-//Importing Express ejs Layout module
-const expressLayouts = require('express-ejs-layouts');
+/* Imports */
+const express = require('express');                     //Require Express from Node Module
+const cookieParser = require('cookie-parser');           //Importing cookie parser module for managing cookies 
+const app = express();                                  //Creating Express app
+const port = 3000;                                      //Default Port
+const expressLayouts = require('express-ejs-layouts');  //Importing Express ejs Layout module
+const db = require('./config/mongoose');                 //Importing the Database
 
 
+//Using middleware express.urlencoded() for POST requests
+app.use(express.urlencoded({extended:false}));
+
+//Telling the app to use Cookie Parser
+app.use(cookieParser());
 
 //Setting View Engine
 app.set('view engine', 'ejs');
