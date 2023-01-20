@@ -3,7 +3,7 @@
 /*Imports*/
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy; //passport-local is used for local Authentication
-const User = require('../models/user'); //Import User schema
+const User = require('../models/user');                   //Import User schema
 
 
 //Strategy for local authentication
@@ -16,7 +16,7 @@ passport.use(new LocalStrategy(
 
         if (!user) { return done(null, false); }    //If user is not found
 
-        if (!user.verifyPassword(password)) { return done(null, false); }   // If the password doesn't match
+        if (user.password != password) { return done(null, false); }   // If the password doesn't match
 
         return done(null, user); // else part i.e. when user is found
       });

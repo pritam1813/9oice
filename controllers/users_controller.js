@@ -47,5 +47,5 @@ module.exports.create = function(req, res){
 
 //Action for Logging in a user and creating a Session
 module.exports.create_session = function(req, res){
-    
+    return res.redirect('/');
 };

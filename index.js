@@ -5,6 +5,9 @@ const app = express();                                  //Creating Express app
 const port = 3000;                                      //Default Port
 const expressLayouts = require('express-ejs-layouts');  //Importing Express ejs Layout module
 const db = require('./config/mongoose');                 //Importing the Database
+const session = require('express-session');             //Library for creating Session and storing encrypted Session ID
+const passport = require('passport');                   //Importing passport js library
+const passportLocal = require('./config/passport-local'); //Passport local strategy from config folder
 
 
 //Using middleware express.urlencoded() for POST requests
@@ -17,6 +20,23 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.set('views', './views'); //Setting views in the 'views' folder
 
+/* Cookie Sessions */
+//Defining session and cookie properties
+app.use(session({
+    name: '9oice',
+    secret: '007sectretservice',
+    saveUninitialized: false,
+    resave: false,
+    cookie:{
+        maxAge: (1000 * 60 * 100),
+    }
+}));
+
+app.use(passport.initialize());     //middle-ware that initialises Passport
+app.use(passport.session());        /* acts as a middleware to alter the req object and change the 'user' value that is currently 
+                                    the session id (from the client cookie) into the true deserialized user object.*/
+
+                                    
 //Setting Layouts
 app.use(expressLayouts);
 
