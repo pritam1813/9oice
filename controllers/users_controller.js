@@ -10,11 +10,18 @@ module.exports.profile = function(req,res){
 
 //User Sign Up route for rendering Sign Up page
 module.exports.signup = function(req,res){
+
+    if(req.isAuthenticated()){                  //isAuthenticated is inbuilt function to check Authentication 
+        return res.redirect('/user/profile');          //If user is alredy Authenticated then sign up page is not accessible
+    }
     return res.render('SignUp', { title : 'Sign Up'});
 };
 
 //User Sign In route for rendering Sign In page
 module.exports.login = function(req,res){
+    if(req.isAuthenticated()){                  
+        return res.redirect('/user/profile');          //If user is alredy Authenticated then sign in page is not accessible
+    }
     return res.render('Login', { title : 'Sign In'});
 };
 
