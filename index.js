@@ -8,7 +8,7 @@ const db = require('./config/mongoose');                 //Importing the Databas
 const session = require('express-session');             //Library for creating Session and storing encrypted Session ID
 const passport = require('passport');                   //Importing passport js library
 const passportLocal = require('./config/passport-local'); //Passport local strategy from config folder
-
+const MongoStore = require('connect-mongo');            //required fo storing the session cookie
 
 //Using middleware express.urlencoded() for POST requests
 app.use(express.urlencoded({extended:false}));
@@ -24,12 +24,15 @@ app.set('views', './views'); //Setting views in the 'views' folder
 //Defining session and cookie properties
 app.use(session({
     name: '9oice',
-    secret: '007sectretservice',
+    secret: '007sectretservice',                //used to encrypt the cookie
     saveUninitialized: false,
     resave: false,
     cookie:{
-        maxAge: (1000 * 60 * 100),
-    }
+        maxAge: (1000 * 60 * 100),              //cookie expires after this time
+    },
+    store: MongoStore.create({                  //Storing the session cookie in the database
+        mongoUrl: process.env.MONGODB_URI       
+    })
 }));
 
 app.use(passport.initialize());     //middle-ware that initialises Passport
