@@ -6,10 +6,11 @@ const router = express.Router();                                    //Funtion to
 const userController = require('../controllers/users_controller');  //Importing User Controller
 const passport = require('passport');                               //Importing passport module
 
-//Using GET Method to access Different User Routes
+//Using GET Method to access Different User Routes (defined in user_controller.js)
 router.get('/profile', passport.checkAuthentication ,userController.profile);   //Only visible to Authenticated User
 router.get('/signup', userController.signup);
 router.get('/login', userController.login);
+router.get('/logout', userController.destroySession);
 
 //Using POST Method to control different actions of sending the data to the server
 router.post('/create', userController.create);  // Creating a user/Sending registration data to the server
