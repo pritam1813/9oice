@@ -7,7 +7,7 @@ const userController = require('../controllers/users_controller');  //Importing 
 const passport = require('passport');                               //Importing passport module
 
 //Using GET Method to access Different User Routes
-router.get('/profile', userController.profile);
+router.get('/profile', passport.checkAuthentication ,userController.profile);   //Only visible to Authenticated User
 router.get('/signup', userController.signup);
 router.get('/login', userController.login);
 

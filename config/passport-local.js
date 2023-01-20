@@ -42,4 +42,24 @@ passport.deserializeUser(function(id, done){
     });
 });
 
+/* Authentication Properties */
+
+// Function to check Authentication
+passport.checkAuthentication = function(req, res, next){
+  if(req.isAuthenticated()){            //If the user is authenticated then sending/allowing user to the next page
+    return next();
+  }
+
+  return res.redirect('/user/login');   //If user is not authenticated then redirecting user to login page
+}
+
+// Funtion to set Authenticated views for the user
+passport.setAuthentication = function(req, res, next){
+  if(req.isAuthenticated()){
+    res.locals.user = req.user;     //req.user contains current authenticated user from the session cookie;
+  }                                 //transfering it to passport locals for the views
+
+  next();
+}
+
 module.exports = passport;

@@ -36,6 +36,7 @@ app.use(passport.initialize());     //middle-ware that initialises Passport
 app.use(passport.session());        /* acts as a middleware to alter the req object and change the 'user' value that is currently 
                                     the session id (from the client cookie) into the true deserialized user object.*/
 
+app.use(passport.setAuthentication);
                                     
 //Setting Layouts
 app.use(expressLayouts);
