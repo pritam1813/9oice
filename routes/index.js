@@ -13,5 +13,8 @@ router.get('/', homeController.home);
 //Access users.js for handling "/user" route Requests
 router.use('/user', require('./users'));
 
+//For undefined Routes/404 error
+router.use(homeController.handle404);
+
 //Export router to use in main index.js
 module.exports = router;

@@ -7,3 +7,8 @@ module.exports.home = function(req,res){
         title: "Home"
     });
 };
+
+//404 
+exports.handle404 = function(req, res, next) {
+    res.status(404).render('404', { title: "404 Error"});
+};
