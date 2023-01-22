@@ -16,6 +16,8 @@ app.use(express.urlencoded({extended:false}));
 //Telling the app to use Cookie Parser
 app.use(cookieParser());
 
+app.use(express.static('./public'));
+
 //Setting View Engine
 app.set('view engine', 'ejs');
 app.set('views', './views'); //Setting views in the 'views' folder
@@ -43,6 +45,11 @@ app.use(passport.setAuthentication);
                                     
 //Setting Layouts
 app.use(expressLayouts);
+
+// extract style and scripts from sub pages into the layout
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
+
 
 //Importing router from routes folder index file and telling express app to use those routes
 app.use('/', require('./routes'));
