@@ -16,10 +16,10 @@
           <a class="nav-link" href="Contact.html">Contact</a>
           <form class="container-fluid mt-1">
             <% if(locals.user) { %>
-              <button onclick="location.href='/user/logout'" class="btn btn-sm btn-outline-secondary" type="button">Sign Out</button>
+              <button id="logoutnav" class="btn btn-sm btn-outline-secondary" type="button">Sign Out</button>
             <% } else { %>
-              <button onclick="location.href='/user/login'" class="btn btn-sm btn-outline-secondary" type="button">Login</button>
-            <button onclick="location.href='/user/signup'" class="btn btn-sm btn-outline-secondary" type="button">Sign Up</button>
+              <button id="loginnav" class="btn btn-sm btn-outline-secondary" type="button">Login</button>
+            <button id="signupnav" class="btn btn-sm btn-outline-secondary" type="button">Sign Up</button>
             <% } %>
           </form>
         </div>
