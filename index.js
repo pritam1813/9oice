@@ -9,6 +9,15 @@ const session = require('express-session');             //Library for creating S
 const passport = require('passport');                   //Importing passport js library
 const passportLocal = require('./config/passport-local'); //Passport local strategy from config folder
 const MongoStore = require('connect-mongo');            //required fo storing the session cookie
+const sassMiddleware = require('express-dart-sass');
+
+app.use(sassMiddleware({
+    src: 'public/assets/scss',
+    dest: 'public/assets/css',
+    debug: true,
+    outputStyle: 'compressed',
+    prefix: '/assets/css'
+}));
 
 //Using middleware express.urlencoded() for POST requests
 app.use(express.urlencoded({extended:false}));
