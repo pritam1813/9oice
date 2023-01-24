@@ -1,1 +1,20 @@
 <h4> Home Page</h4>
+
+<% if(locals.user) { %>
+    <section id="feed-post">
+        <div class="container mx-auto d-block w-50 p-3 user-forms">
+            <form action="" method="post">
+                  <div class="mb-3">
+                    <label for="Textarea1" class="form-label">Post</label>
+                    <textarea class="form-control" id="Textarea1" rows="3" placeholder="Type here"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="formFile" class="form-label">Upload Photo</label>
+                    <input class="form-control" type="file" id="formFile">
+                  </div>
+                <button type="submit" class="btn btn-primary">Create Post</button>
+            </form>
+        </div>
+    </section>
+<% } %>
+
