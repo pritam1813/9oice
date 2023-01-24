@@ -1,8 +1,18 @@
+$form-color: rgb(171, 169, 239);
+
 p{
     color: rgb(163, 131, 236);
 }
 
 body{
     background-color: rgb(244, 212, 165);
+    main{
+        height: 100vh;
+    }
 }
 
+#forms{
+    min-width: 300px;
+    background-color: $form-color;
+    border-radius: 10px;
+}
