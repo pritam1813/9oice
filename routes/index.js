@@ -13,6 +13,9 @@ router.get('/', homeController.home);
 //Access users.js for handling "/user" route Requests
 router.use('/user', require('./users'));
 
+//Access posts.js for handling "/posts" route Requests
+router.use('/posts', require('./posts'));
+
 //For undefined Routes/404 error
 router.use(homeController.handle404);
 

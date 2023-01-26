@@ -1,6 +1,6 @@
 /* Responsible for different actions within user Route */
 
-//Importing Database Model 
+//Importing Database Models
 const User = require('../models/user');
 
 //user profile route

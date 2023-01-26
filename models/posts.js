@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');   //Importing mongoose.js
+const User = require('./user');
 
 //Creating Schema for User's Posts
 const postsSchema = new mongoose.Schema({
