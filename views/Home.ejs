@@ -23,7 +23,13 @@
               <a href="#" class="card-link">Comment</a>
             </div>
             <div id="cmnt">
-                <textarea name="comment" rows="2" placeholder="Comment"></textarea>
+                <% if(locals.user) { %>
+                    <form action="/comment/create" method="post">
+                        <input type="text" name="content" id="commentbox" placeholder="Comment">
+                        <input type="hidden" name="post" value="<%= post._id %>">
+                        <button type="submit" class="btn btn-primary">Add Comment</button>
+                    </form>
+                <% } %>
             </div>
         </div>
     <% } %>

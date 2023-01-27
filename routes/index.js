@@ -16,6 +16,9 @@ router.use('/user', require('./users'));
 //Access posts.js for handling "/posts" route Requests
 router.use('/posts', require('./posts'));
 
+//Access comment.js for handling "/comment" route Requests
+router.use('/comment', require('./comment'));
+
 //For undefined Routes/404 error
 router.use(homeController.handle404);
 
