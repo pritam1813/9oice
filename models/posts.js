@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');   //Importing mongoose.js
-const User = require('./user');
+const User = require('./user');         //user model
+const Comment = require('./comment');   //Comment model
 
 //Creating Schema for User's Posts
 const postsSchema = new mongoose.Schema({
@@ -7,10 +8,16 @@ const postsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    user: {
+    user: {                                         //Referencing Each Posts to a User
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    comment: [                                      //Each post containing array of comments
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 },{
     timestamps: true
 });
