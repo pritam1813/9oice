@@ -1,12 +1,21 @@
 /* Responsible for different actions within a Route */
 const Posts = require('../models/posts'); //Importing Post Schema
+const { populate } = require('../models/user');
 
 //Root route action
 module.exports.home = function(req,res){
     //Rendering Home.ejs from the views folder
 
     // .find() function to find all the Posts. Populate each post with user data(from model)
-    Posts.find({}).populate('user').exec(function(err, posts){
+    Posts.find({})
+    .populate('user')
+    .populate({
+        path: 'comment',
+        populate: {
+            path: 'user'
+        }
+    })
+    .exec(function(err, posts){
         if(err){console.log(`Error Getting Posts: ${err}`)};
         return res.render('Home', {
             title: "Home",
