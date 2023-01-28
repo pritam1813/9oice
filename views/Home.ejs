@@ -24,16 +24,26 @@
             <div class="col" id="post-col">
                 <%= post.content %>
             </div>
-            <div class="col" id="like-share">
-                <span class="m-2"><a href="#">Like</a></span>
-                <span class="m-2"><a href="#">Share</a></span>
-            </div>
+
+            <!-- Displaying post interaction option only to the logged in user -->
+            <% if(locals.user) { %>
+                <div class="col" id="like-share">
+                    <span class="m-2"><a href="#">Like</a></span>
+                    <span class="m-2"><a href="#">Share</a></span>
+
+                    <!-- Displaying Delete Option only to the Creator of the post -->
+                    <% if(locals.user.id == post.user.id) { %>
+                        <span class="m-2"><a href="/posts/destroy/<%= post._id %>">Delete</a></span>
+                    <% } %>
+                </div>
+            <% } %>
+
             <!-- Displaying Comments -->
             <% for(comment of post.comment) { %>
                 <div class="col text-end" id="comment-display">
                     <div id="comment-user"><%= comment.user.name %></div>
                     <div id="comment-content"><%= comment.content %></div>
-                    <div id="comment-time"><%= comment.createdAt.toUTCString() %></div>
+                    <div id="comment-time"><%= comment.createdAt.toLocaleString() %></div>
                 </div>
             <% } %>
             <!-- Only logged in users can comment -->
