@@ -1,5 +1,5 @@
 <h4> Home Page</h4>
-
+<!-- Creating Posts Form -->
 <% if(locals.user) { %>
     <section id="feed-post">
         <div class="container mx-auto d-block w-50 p-3 user-forms">
@@ -13,34 +13,38 @@
         </div>
     </section>
 <% } %>
-<div class="container" id="userPosts" class="mt-5">
+
+<!-- Displaying user Posts -->
+<div class="container text-center" id="posts-container">
     <% for(post of posts) { %>
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title"><%= post.user.name %></h5>
-              <p class="card-text"><%= post.content %></p>
-              <a href="#" class="card-link">Like</a>
-              <a href="#" class="card-link">Comment</a>
+        <div class="row row-cols-1" id="posts">
+            <div class="col text-start" id="name-col">
+                <%= post.user.name %>
             </div>
-            <div id="cmnt">
-                <% if(locals.user) { %>
+            <div class="col" id="post-col">
+                <%= post.content %>
+            </div>
+            <div class="col" id="like-share">
+                <span class="m-2"><a href="#">Like</a></span>
+                <span class="m-2"><a href="#">Share</a></span>
+            </div>
+            <!-- Displaying Comments -->
+            <% for(comment of post.comment) { %>
+                <div class="col text-end" id="comment-display">
+                    <span id="comment-user"><%= comment.user.name %></span><br>
+                    <span id="comment-content"><%= comment.content %></span>
+                </div>
+            <% } %>
+            <!-- Only logged in users can comment -->
+            <% if(locals.user) { %>
+                <div class="col" id="comment-col">
                     <form action="/comment/create" method="post">
-                        <input type="text" name="content" id="commentbox" placeholder="Comment">
+                        <input type="text" class="form-control" name="content" id="commentbox" placeholder="Comment" required>
                         <input type="hidden" name="post" value="<%= post._id %>">
                         <button type="submit" class="btn btn-primary">Add Comment</button>
                     </form>
-                <% } %>
-            </div>
-            <div id="post-comments-list">
-                <ul id="post-comment-<%= post._id %>">
-                    <% for(comment of post.comment) { %>
-                        <li>
-                            <p> <%= comment.content %> </p>
-                            <small> <%= comment.user.name %> </small>
-                        </li>
-                    <% } %>
-                </ul>
-            </div>
+                </div>
+            <% } %>
         </div>
     <% } %>
 </div>

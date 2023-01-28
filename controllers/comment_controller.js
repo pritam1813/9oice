@@ -15,7 +15,7 @@ module.exports.create = function(req,res){
                 user: req.user._id
             },
             function(err, comment){
-                if(err){console.log(`Error in Adding Comment: ${err}`); return;}
+                if(err){console.log(`Error in Adding Comment: ${err}`); return res.redirect('back');}
                 
                 post.comment.push(comment);                 //Using mongo's function to push the comment into the post database
                 post.save();
