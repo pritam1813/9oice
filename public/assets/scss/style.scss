@@ -1,9 +1,5 @@
 $form-color: rgb(171, 169, 239);
 
-p{
-    color: rgb(163, 131, 236);
-}
-
 nav{
     background-color: #85a1dc;
 }
@@ -20,30 +16,9 @@ body{
     transform: rotateX(5deg);
 }
 
-#userPosts{
-    width: 30%;
-    min-height: 300px;
-    div{
-        margin-top: 1rem;
-        text-align: center;
-        a{
-            text-align: right;
-        }
-    }
-    p{
-        margin: 0%;
-    }
-}
-
-#post-comments-list{
-    div{
-        margin-left: 2rem;
-        text-align: left;
-    }
-}
-
 #posts-container{
     max-width: 40%;
+    min-width: 300px;
     #posts{
         padding: 2rem;
         margin-top: 2rem;
@@ -74,11 +49,10 @@ body{
             #comment-content{
                 font-size: 1.2rem;
             }
+            #comment-time{
+                color: dimgray;
+                font-size: 0.65rem;
+            }
         }
     }
-}
-
-
-#cmntt{
-    border: 2px solid rgb(242, 3, 3);
 }

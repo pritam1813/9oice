@@ -31,8 +31,9 @@
             <!-- Displaying Comments -->
             <% for(comment of post.comment) { %>
                 <div class="col text-end" id="comment-display">
-                    <span id="comment-user"><%= comment.user.name %></span><br>
-                    <span id="comment-content"><%= comment.content %></span>
+                    <div id="comment-user"><%= comment.user.name %></div>
+                    <div id="comment-content"><%= comment.content %></div>
+                    <div id="comment-time"><%= comment.createdAt.toUTCString() %></div>
                 </div>
             <% } %>
             <!-- Only logged in users can comment -->
@@ -42,6 +43,15 @@
                         <input type="text" class="form-control" name="content" id="commentbox" placeholder="Comment" required>
                         <input type="hidden" name="post" value="<%= post._id %>">
                         <button type="submit" class="btn btn-primary">Add Comment</button>
+                    </form>
+                </div>
+            <% } else { %>
+                <div class="col" id="comment-col">
+                    <form>
+                        <fieldset disabled>
+                            <input class="form-control" id="disabledInput" type="text" placeholder="Please Login to Comment" disabled>
+                            <button type="submit" class="btn btn-primary">Add Comment</button>
+                        </fieldset>
                     </form>
                 </div>
             <% } %>
