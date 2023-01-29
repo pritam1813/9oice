@@ -24,3 +24,27 @@ module.exports.create = function(req,res){
         }
     });
 };
+
+//Action for deleting Comments
+module.exports.destroy = function(req, res){
+
+    Comment.findById(req.params.id, function(err, comment){
+        if(err){console.log(err)};
+
+        if(comment.user == req.user.id){
+
+            let postId = comment.post;  //Saving the post id of the respective comment(defined in db model)
+            
+            comment.remove();          //Deleting the comment
+
+            /*Since the comment was also saved in the post model(as per the schema)
+            so deleting from there too*/
+            Posts.findByIdAndUpdate(postId, {$pull: req.params.id}, function(err, post){
+                return res.redirect('back');
+            });
+
+        }else{
+            return res.redirect('back');
+        }
+    });
+};

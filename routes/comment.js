@@ -5,6 +5,7 @@ const router = express.Router();
 const commentController = require('../controllers/comment_controller'); //Importing comment Controller
 const passport = require('passport');                               //Import Passport.js
 
-router.post('/create', passport.checkAuthentication, commentController.create); //Creating Feed post for user
+router.post('/create', passport.checkAuthentication, commentController.create); //Creating comment for user
+router.get('/destroy/:id', passport.checkAuthentication, commentController.destroy);  //Deleting user Comment
 
 module.exports = router;
