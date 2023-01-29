@@ -14,9 +14,22 @@
     </section>
 <% } %>
 
+
+<section id="feed">
 <!-- Displaying user Posts -->
-<div class="container text-center" id="posts-container">
-    <% for(post of posts) { %>
-        <%- include('partials/posts') %>
-    <% } %>
-</div>
+    <div class="container text-center" id="posts-container">
+        <% for(post of posts) { %>
+            <%- include('partials/posts') %>
+        <% } %>
+    </div>
+</section>
+
+<!-- Friends -->
+<section id="user-friends">
+    <h4>Friends</h4>
+    <% for(u of all_users) { %> 
+        <p>
+            <a href="/user/profile/<%= u.id %>"><%= u.name %></a>
+        </p>
+        <% } %>
+</section>

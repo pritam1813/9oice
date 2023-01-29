@@ -1,5 +1,6 @@
 /* Responsible for different actions within a Route */
 const Posts = require('../models/posts'); //Importing Post Schema
+const User = require('../models/user');     //Importing User Schema
 const { populate } = require('../models/user');
 
 //Root route action
@@ -17,9 +18,13 @@ module.exports.home = function(req,res){
     })
     .exec(function(err, posts){
         if(err){console.log(`Error Getting Posts: ${err}`)};
-        return res.render('Home', {
-            title: "Home",
-            posts: posts
+
+        User.find({}, function(err, users){     //Finding and returning all the user for displaying
+            return res.render('Home', {
+                title: "Home",
+                posts: posts,
+                all_users: users
+            });
         });
     });
 };
