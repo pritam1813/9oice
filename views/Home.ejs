@@ -14,5 +14,9 @@
     </section>
 <% } %>
 
-<%- include('partials/posts') %>
-
+<!-- Displaying user Posts -->
+<div class="container text-center" id="posts-container">
+    <% for(post of posts) { %>
+        <%- include('partials/posts') %>
+    <% } %>
+</div>
