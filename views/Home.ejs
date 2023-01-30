@@ -24,7 +24,9 @@
     </div>
 </section>
 
-<!-- Friends -->
+<!-- Only visible to logged in users -->
+<% if(locals.user) { %>
+    <!-- Friends -->
 <section id="user-friends">
     <h4>Friends</h4>
     <% for(u of all_users) { %> 
@@ -33,3 +35,4 @@
         </p>
         <% } %>
 </section>
+    <% } %>

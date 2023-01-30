@@ -71,3 +71,19 @@ module.exports.destroySession = function(req, res){
         return res.redirect('/');
     });               
 };
+
+//Action for updating user data
+module.exports.update = function(req, res){
+    //Update condition available only if logged in user id matches with the user data form id 
+    if(req.user.id == req.params.id){
+
+        //Mongo function to update user data
+        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+            return res.redirect('back');
+        });
+    } else {
+        //If user id doesn't matches but tries to edit
+        return res.status(401).send("Unauthorised Access");
+    }
+
+}

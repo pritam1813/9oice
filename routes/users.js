@@ -21,5 +21,8 @@ router.post('/create_session',passport.authenticate(
     {failureRedirect: '/user/login'},       //If authentication fail then redirect to login page
 ),userController.create_session);           // If successful then this action gets called
 
+//Route for editing profile
+router.post('/update/:id', passport.checkAuthentication, userController.update);
+
 //Exporting this router to make it accessible by main index Router
 module.exports = router;
