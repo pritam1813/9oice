@@ -1,1 +1,54 @@
-nav{background-color:#85a1dc}body{background-color:#eaeaea}.user-forms{min-width:300px;background-color:#aba9ef;border-radius:10px;box-shadow:0px 5px 10px rgba(0,0,0,.1);transform:rotateX(5deg)}#posts-container{max-width:40%;min-width:300px}#posts-container #posts{padding:2rem;margin-top:2rem;background-color:#ccf4d2;box-shadow:0px 5px 10px rgba(0,0,0,.1);transform:rotateX(5deg);border-radius:.5rem}#posts-container #posts #name-col{color:gray}#posts-container #posts #post-col{font-size:2rem}#posts-container #posts #comment-col{margin:2rem 0}#posts-container #posts #comment-col #commentbox{outline:none;border:0px;margin:.7rem 0}#posts-container #posts #comment-display{margin:.7rem -2rem 0}#posts-container #posts #comment-display #comment-user{color:dimgray;font-size:.8rem}#posts-container #posts #comment-display #comment-content{font-size:1.2rem}#posts-container #posts #comment-display #comment-time{color:dimgray;font-size:.65rem}
+body {
+  background-color: rgb(234, 234, 234);
+}
+
+.user-forms {
+  min-width: 300px;
+  background-color: rgb(171, 169, 239);
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  transform: rotateX(5deg);
+}
+
+/* Feed Posts Styles */
+#posts-container {
+  max-width: 40%;
+  min-width: 300px;
+}
+#posts-container #posts {
+  padding: 2rem;
+  margin-top: 2rem;
+  background-color: rgb(204, 244, 210);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  transform: rotateX(5deg);
+  border-radius: 0.5rem;
+  /*    Comment Section Styles     */
+}
+#posts-container #posts #name-col {
+  color: grey;
+}
+#posts-container #posts #post-col {
+  font-size: 2rem;
+}
+#posts-container #posts #comment-col {
+  margin: 2rem 0;
+}
+#posts-container #posts #comment-col #commentbox {
+  outline: none;
+  border: 0px;
+  margin: 0.7rem 0;
+}
+#posts-container #posts #comment-display {
+  margin: 0.7rem -2rem 0;
+}
+#posts-container #posts #comment-display #comment-user {
+  color: dimgray;
+  font-size: 0.8rem;
+}
+#posts-container #posts #comment-display #comment-content {
+  font-size: 1.2rem;
+}
+#posts-container #posts #comment-display #comment-time {
+  color: dimgray;
+  font-size: 0.65rem;
+}

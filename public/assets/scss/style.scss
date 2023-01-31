@@ -1,11 +1,7 @@
-$form-color: rgb(171, 169, 239);
-
-nav{
-    background-color: #85a1dc;
-}
+@import 'partials/colors';
 
 body{
-    background-color: rgb(234, 234, 234);
+    background-color: $primary-color;
 }
 
 .user-forms{
@@ -16,43 +12,11 @@ body{
     transform: rotateX(5deg);
 }
 
+/* Feed Posts Styles */
 #posts-container{
+
     max-width: 40%;
     min-width: 300px;
-    #posts{
-        padding: 2rem;
-        margin-top: 2rem;
-        background-color: rgb(204, 244, 210);
-        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-        transform: rotateX(5deg);
-        border-radius: 0.5rem;
-        #name-col{
-            color: grey;
-        }
-        #post-col{
-            font-size: 2rem;
-        }
-        #comment-col{
-            margin: 2rem 0;
-            #commentbox{
-                outline: none;
-                border: 0px;
-                margin: 0.7rem 0;
-            }
-        }
-        #comment-display{
-            margin: 0.7rem -2rem 0;
-            #comment-user{
-                color: dimgray;
-                font-size: 0.8rem;
-            }
-            #comment-content{
-                font-size: 1.2rem;
-            }
-            #comment-time{
-                color: dimgray;
-                font-size: 0.65rem;
-            }
-        }
-    }
+    
+    @import "partials/post_style.scss";
 }

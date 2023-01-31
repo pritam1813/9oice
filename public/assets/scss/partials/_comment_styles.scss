@@ -1,0 +1,29 @@
+/*    Comment Section Styles     */
+
+#comment-col{
+    margin: 2rem 0;
+    
+    #commentbox{
+        outline: none;
+        border: 0px;
+        margin: 0.7rem 0;
+    }
+}
+
+#comment-display{
+    margin: 0.7rem -2rem 0;
+
+    #comment-user{
+        color: dimgray;
+        font-size: 0.8rem;
+    }
+
+    #comment-content{
+        font-size: 1.2rem;
+    }
+
+    #comment-time{
+        color: dimgray;
+        font-size: 0.65rem;
+    }
+}
