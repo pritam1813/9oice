@@ -1,8 +1,4 @@
-@import 'partials/colors';
-
-body{
-    background-color: $primary-color;
-}
+@import 'variables/colors';
 
 .user-forms{
     min-width: 300px;

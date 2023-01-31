@@ -1,0 +1,30 @@
+#home-container {
+  display: flex;
+}
+#home-container section#feed-post {
+  /* Post Section */
+  margin: 1rem;
+  padding: 1rem;
+}
+#home-container section#feed-post .user-forms {
+  /* Using pseudo classes to control the width */
+}
+#home-container section#feed-post .user-forms {
+  width: 70%;
+}
+#home-container section#feed-post:not(.user-forms) {
+  width: 100%;
+}
+#home-container section#user-friends {
+  width: 30%;
+  border-left: 1px solid darkgray;
+  margin: 1rem;
+  padding: 1rem;
+}
+#home-container section#user-friends ul {
+  list-style: none;
+  position: fixed;
+}
+#home-container section#user-friends ul i {
+  color: darkcyan;
+}

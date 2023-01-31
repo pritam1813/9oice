@@ -1,0 +1,40 @@
+@import "modules/mixin";
+
+#home-container {
+    display: flex;
+
+    section {
+   
+      &#feed-post {
+        /* Post Section */ 
+        @include basic-margin-padding;
+
+        .user-forms {
+            /* Using pseudo classes to control the width */
+          & {
+            width: 70%; //width for logged in users
+          }
+        }
+        &:not(.user-forms) {
+          width: 100%;      //width for logged out users since friend section is not visible
+        }
+      }
+
+      &#user-friends {
+        width: 30%;         //width for logged in users
+        border-left: 1px solid darkgray;
+        @include basic-margin-padding;
+
+        //Friends List style
+        ul{
+            list-style: none;
+            position: fixed;
+    
+            i{
+                color: darkcyan;
+            }
+        }
+      }
+    }
+  }
+  

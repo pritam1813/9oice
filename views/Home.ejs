@@ -1,38 +1,43 @@
-<h4> Home Page</h4>
-<!-- Creating Posts Form -->
-<% if(locals.user) { %>
+<div id="home-container" class="container-fluid">
+
     <section id="feed-post">
-        <div class="container mx-auto d-block w-50 p-3 user-forms">
-            <form action="/posts/create" method="post">
-                  <div class="mb-3">
-                    <label for="Textarea1" class="form-label">Post</label>
-                    <textarea class="form-control" name="content" id="Textarea1" rows="3" placeholder="Type here"></textarea>
-                  </div>
-                <button type="submit" class="btn btn-primary">Create Post</button>
-            </form>
+
+        <!-- Post Form -->
+        <% if(locals.user) { %>
+            <div class="container mx-auto d-block w-50 p-3 user-forms">
+                <form action="/posts/create" method="post">
+                    <div class="mb-3">
+                        <label for="Textarea1" class="form-label">Post</label>
+                        <textarea class="form-control" name="content" id="Textarea1" rows="3" placeholder="Type here"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Post</button>
+                </form>
+            </div>
+        <% } %>
+        
+        <!-- Displaying user Posts -->
+        <div class="container text-center" id="posts-container">
+            <% for(post of posts) { %>
+                <%- include('partials/posts') %>
+            <% } %>
         </div>
     </section>
-<% } %>
 
-
-<section id="feed">
-<!-- Displaying user Posts -->
-    <div class="container text-center" id="posts-container">
-        <% for(post of posts) { %>
-            <%- include('partials/posts') %>
-        <% } %>
-    </div>
-</section>
-
-<!-- Only visible to logged in users -->
-<% if(locals.user) { %>
-    <!-- Friends -->
-<section id="user-friends">
-    <h4>Friends</h4>
-    <% for(u of all_users) { %> 
-        <p>
-            <a href="/user/profile/<%= u.id %>"><%= u.name %></a>
-        </p>
-        <% } %>
-</section>
+     <!-- Only visible to logged in users -->
+     <% if(locals.user) { %>
+        <!-- Friends -->
+        <section id="user-friends">
+            <ul>
+                <h4>Friends</h4>
+                <% for(u of all_users) { %> 
+                    <li>
+                        <i class="fa-solid fa-circle-dot"></i>
+                        <a href="/user/profile/<%= u.id %>"><%= u.name %></a>
+                    </li>
+                <% } %>
+            </ul>
+        </section>
     <% } %>
+</div>
+
+   
