@@ -12,6 +12,11 @@
 <body>
     <%- include('partials/nav') %>
     <%- include('partials/header') %>
+
+    <% if(flash.success && flash.success.length > 0) { %> 
+        <%- include('partials/flashMessage') %>
+    <% } %>
+
     <main id="layout-main">
         <%- body %>
     </main>

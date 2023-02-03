@@ -10,6 +10,8 @@ const passport = require('passport');                   //Importing passport js 
 const passportLocal = require('./config/passport-local'); //Passport local strategy from config folder
 const MongoStore = require('connect-mongo');            //required fo storing the session cookie
 const sassMiddleware = require('express-dart-sass');    //Middleware for using scss
+const flash = require('connect-flash');                 //For displaying flash messages
+const cstmFlashMware = require('./config/middleware');  //Custom middleware for flash messages
 
 //compiling scss into css before the server runs
 app.use(sassMiddleware({
@@ -52,7 +54,11 @@ app.use(passport.session());        /* acts as a middleware to alter the req obj
                                     the session id (from the client cookie) into the true deserialized user object.*/
 
 app.use(passport.setAuthentication);
-                                    
+
+//Since flash messages are stored in session cookie so using flash after the session
+app.use(flash());
+app.use(cstmFlashMware.setFlash);
+
 //Setting Layouts
 app.use(expressLayouts);
 

@@ -16,3 +16,11 @@
     
     @import "partials/post_style.scss";
 }
+
+#flashmessage{
+    position: absolute;
+    display: flex;
+    max-width: fit-content;
+    padding: 4px;
+    background-color: rgb(234, 139, 50);
+}

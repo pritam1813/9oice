@@ -61,6 +61,9 @@ module.exports.create = async function(req, res){
 
 //Action for Logging in a user and creating a Session
 module.exports.create_session = function(req, res){
+    // Setting a flash message by passing the key, followed by the value, to req.flash().
+    req.flash('success', 'Logged in Successfully');
+
     return res.redirect('/');
 };
 
@@ -68,6 +71,8 @@ module.exports.create_session = function(req, res){
 module.exports.destroySession = function(req, res){
     req.logout(function(err){           //Included function in passport js for destroying session
         if(err){console.log(err)};
+
+        req.flash('success', 'Logged Out');
         return res.redirect('/');
     });               
 };
