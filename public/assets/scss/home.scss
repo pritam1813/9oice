@@ -29,7 +29,11 @@
         ul{
             list-style: none;
             position: fixed;
-    
+            
+            a{
+              color: rgb(110, 4, 110);
+              text-decoration: none;
+            }
             i{
                 color: darkcyan;
             }
