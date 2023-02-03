@@ -40,6 +40,7 @@ module.exports.destroy = async function(req, res){
             /*Since the comment was also saved in the post model(as per the schema)
             so deleting from there too*/
             let post = Posts.findByIdAndUpdate(postId, {$pull: req.params.id});
+            req.flash('success', 'Comment Deleted');
             return res.redirect('back');
 
         } else {

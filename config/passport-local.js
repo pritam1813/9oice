@@ -8,15 +8,28 @@ const User = require('../models/user');                   //Import User schema
 
 //Strategy for local authentication
 passport.use(new LocalStrategy(
-    {usernameField: 'email'},       //Passing the email as username
+    { 
+      usernameField: 'email',     //Passing the email as username
+      passReqToCallback: true     //req is passed as the first argument to the verify callback
+    },       
 
-    function(email, password, done) {
+    function(req, email, password, done) {        //req recieved from passReqToCallback (It is required to display flash messages)
+
       User.findOne({ email : email }, function (err, user) {  // email(from User model schema) : email(passed from previous line usernamefield)
-        if (err) { return done(err); }      // handling error
+        if (err) {                // handling error
+          req.flash('error:', err);
+          return done(err); 
+        }
 
-        if (!user) { return done(null, false); }    //If user is not found
+        if (!user) {                                          //If user is not found
+          req.flash('error', 'Invalid Username/Password');    //Diplay error flash on unsuccessful attempt
+          return done(null, false); 
+        }    
 
-        if (user.password != password) { return done(null, false); }   // If the password doesn't match
+        if (user.password != password) {                      // If the password doesn't match
+          req.flash('error', 'Invalid Username/Password');
+          return done(null, false);
+        }
 
         return done(null, user); // else part i.e. when user is found
       });
