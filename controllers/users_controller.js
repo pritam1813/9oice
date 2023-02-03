@@ -34,28 +34,28 @@ module.exports.login = function(req,res){
 
 
 //Action for Creating/Signing Up a user and storing the Data in the Database
-module.exports.create = function(req, res){
-    //If the password and confirm password doesn't match then we will not create user
-    if(req.body.password != req.body.confirm_password){
-        return res.redirect('back');
-    }
+module.exports.create = async function(req, res){
+    try{
 
-    //Trying to find if the user with same email already exists in the database
-    User.findOne({ email: req.body.email}, function(err, user){
-        if(err){console.log('Error in Finding User while Sign Up'); return;} //Handling error for finding the user
+        //If the password and confirm password doesn't match then we will not create user
+        if(req.body.password != req.body.confirm_password){
+            return res.redirect('back');
+        }
 
-        //If User doesn't exist then creating the User
-        if(!user){
-            User.create(req.body, function(err, user){
-                if(err){console.log('Error in Creating User'); return;} //Handling error in creating user
+        //Trying to find if the user with same email already exists in the database
+        let user = await User.findOne({ email: req.body.email});
 
-                return res.redirect('/user/login'); //If user is successfully created then redirecting user to Sign In page
-            });
+        if(!user){                                  //If User doesn't exist then creating the User
+            let user = await User.create(req.body);
+            return res.redirect('/user/login'); //If user is successfully created then redirecting user to Sign In page
         } else {
             return res.redirect('/user/login'); //If user already exists then redirecting to sign in page
         }
 
-    });
+    } catch(err){
+        console.log(`Error: ${err}`);
+        return;
+    }
 
 };
 
