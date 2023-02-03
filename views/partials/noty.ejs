@@ -1,0 +1,17 @@
+<% if(flash.success && flash.success.length > 0) { %> 
+    new Noty({
+        theme: 'relax',
+        text: '<%= flash.success %>',
+        type: 'success',
+        timeout: 1000
+    }).show();
+<% } %>
+
+<% if(flash.error && flash.error.length > 0) { %> 
+    new Noty({
+        theme: 'relax',
+        text: '<%= flash.error %>',
+        type: 'error',
+        timeout: 1000
+    }).show();
+<% } %>
