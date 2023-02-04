@@ -1,4 +1,4 @@
-<div class="row row-cols-1" id="posts">
+<div class="row row-cols-1 posts" id="posts-<%= post._id %>">
     <div class="col text-start" id="name-col">
         <%= post.user.name %>
     </div>
@@ -14,7 +14,7 @@
 
             <!-- Displaying Delete Option only to the Creator of the post -->
             <% if(locals.user.id == post.user.id) { %>
-                <span class="m-2"><a href="/posts/destroy/<%= post._id %>">Delete</a></span>
+                <span class="m-2"><a class="delete-post-button" href="/posts/destroy/<%= post._id %>">Delete</a></span>
             <% } %>
         </div>
     <% } %>

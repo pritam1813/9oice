@@ -4,10 +4,20 @@ const Comment = require('../models/comment');   //Importing the Comment Schema
 //Action for handling user's Feed Post creation
 module.exports.create = async function(req, res){
     try{
-        await Posts.create({
+        let post = await Posts.create({
             content: req.body.content,
             user: req.user._id
         });
+
+        if(req.xhr){                             //Checking if the request is of xml http request(AJAX req)
+            return res.status(200).json({
+                data: {
+                    post: post                     //Key post, value post(from Post.create)
+                },
+                message: "Post Created!"
+            });
+        }
+
         req.flash('success', 'Post Created Successfully');
         return res.redirect('back');
     } catch(err) {

@@ -11,7 +11,7 @@
   max-width: 40%;
   min-width: 300px;
 }
-#posts-container #posts {
+#posts-container .posts {
   padding: 2rem;
   margin-top: 2rem;
   background-color: rgb(204, 244, 210);
@@ -20,31 +20,31 @@
   border-radius: 0.5rem;
   /*    Comment Section Styles     */
 }
-#posts-container #posts #name-col {
+#posts-container .posts #name-col {
   color: grey;
 }
-#posts-container #posts #post-col {
+#posts-container .posts #post-col {
   font-size: 2rem;
 }
-#posts-container #posts #comment-col {
+#posts-container .posts #comment-col {
   margin: 2rem 0;
 }
-#posts-container #posts #comment-col #commentbox {
+#posts-container .posts #comment-col #commentbox {
   outline: none;
   border: 0px;
   margin: 0.7rem 0;
 }
-#posts-container #posts #comment-display {
+#posts-container .posts #comment-display {
   margin: 0.7rem -2rem 0;
 }
-#posts-container #posts #comment-display #comment-user {
+#posts-container .posts #comment-display #comment-user {
   color: dimgray;
   font-size: 0.8rem;
 }
-#posts-container #posts #comment-display #comment-content {
+#posts-container .posts #comment-display #comment-content {
   font-size: 1.2rem;
 }
-#posts-container #posts #comment-display #comment-time {
+#posts-container .posts #comment-display #comment-time {
   color: dimgray;
   font-size: 0.65rem;
 }

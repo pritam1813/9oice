@@ -5,7 +5,7 @@
         <!-- Post Form -->
         <% if(locals.user) { %>
             <div class="container mx-auto d-block w-50 p-3 user-forms">
-                <form action="/posts/create" method="post">
+                <form action="/posts/create" id="create-post-form" method="post">
                     <div class="mb-3">
                         <label for="Textarea1" class="form-label">Post</label>
                         <textarea class="form-control" name="content" id="Textarea1" rows="3" placeholder="Type here"></textarea>
@@ -17,9 +17,11 @@
         
         <!-- Displaying user Posts -->
         <div class="container text-center" id="posts-container">
-            <% for(post of posts) { %>
-                <%- include('partials/posts') %>
-            <% } %>
+            <div>
+                <% for(post of posts) { %>
+                    <%- include('partials/posts') %>
+                <% } %>
+            </div>
         </div>
     </section>
 
@@ -39,5 +41,6 @@
         </section>
     <% } %>
 </div>
+<script src="/js/postdata.js"></script>
 
    
