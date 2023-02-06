@@ -13,9 +13,13 @@
                 url: '/posts/create',
                 data: postForm.serialize(),         //Converting the data into json format
                 success: function(data){
+                    console.log(data);
                     let newPost = postDom(data.data.post);
                     $('#posts-container>ul').prepend(newPost);
                     deletePost($(' .delete-post-button', newPost));
+
+                    // calling the create comment class
+                    new PostComments(data.data.post._id);
 
                     new Noty({
                         theme: 'relax',
@@ -93,6 +97,10 @@
             let self = $(this);
             let deleteButton = $(' .delete-post-button', self);
             deletePost(deleteButton);
+
+            // get the post's id by splitting the id attribute
+            let postId = self.prop('id').split("-")[1]
+            new PostComments(postId);
         });
     }
     createPost();

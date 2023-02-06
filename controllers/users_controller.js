@@ -84,11 +84,13 @@ module.exports.update = function(req, res){
 
         //Mongo function to update user data
         User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+            req.flash('success', 'Updated!');
             return res.redirect('back');
         });
     } else {
         //If user id doesn't matches but tries to edit
-        return res.status(401).send("Unauthorised Access");
+        req.flash('error', 'Unauthorized!');
+        return res.status(401).send("Unauthorized Access");
     }
 
 }

@@ -9,6 +9,7 @@ module.exports.home = async function(req,res){
     try{
         // .find() function to find all the Posts. Populate each post with user data(from model)
         let posts = await Posts.find({})
+        .sort('-createdAt')
         .populate('user')
         .populate({
             path: 'comment',
