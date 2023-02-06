@@ -17,11 +17,11 @@
         
         <!-- Displaying user Posts -->
         <div class="container text-center" id="posts-container">
-            <div>
+            <ul>
                 <% for(post of posts) { %>
                     <%- include('partials/posts') %>
                 <% } %>
-            </div>
+            </ul>
         </div>
     </section>
 
