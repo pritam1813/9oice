@@ -6,6 +6,6 @@ const commentController = require('../controllers/comment_controller'); //Import
 const passport = require('passport');                               //Import Passport.js
 
 router.post('/create', passport.checkAuthentication, commentController.create); //Creating comment for user
-router.get('/destroy/:id', passport.checkAuthentication, commentController.destroy);  //Deleting user Comment
+router.delete('/destroy/:id', passport.checkAuthentication, commentController.destroy);  //Deleting user Comment
 
 module.exports = router;
