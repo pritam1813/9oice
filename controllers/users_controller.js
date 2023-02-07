@@ -1,9 +1,23 @@
 /* Responsible for different actions within user Route */
 
-const fs = require('fs');
-const path = require('path');
-//Importing Database Models
-const User = require('../models/user');
+//Imports
+const User = require('../models/user');                 //Database Model user
+require('dotenv').config();                             //env module for hiding sensitive info
+const AWS = require('aws-sdk');                         //aws-sdk for s3 bucket storage access
+const { v4: uuidv4 } = require('uuid');                 //To Generate RFC-compliant UUIDs for file names
+const AVATAR_BUCKET = '9oice';                          //s3 bucket name
+const AVATAR_FOLDER = 'uploads/user/Avatars';           //s3 folder path
+/* Required when using local storage*/
+// const fs = require('fs');
+// const path = require('path');
+
+// Configuring the AWS SDK
+const s3 = new AWS.S3({
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    endpoint: process.env.ENDPOINT,
+    signatureVersion: 'v4'
+});
 
 //user profile route
 module.exports.profile = function(req,res){
@@ -87,6 +101,77 @@ module.exports.update = async function(req, res){
         //Mongo function to update user data
         try{
             let user = await User.findById(req.params.id);
+
+            //Using Mongo user model static function
+            User.uploadedAvatar(req, res, async (err) => {
+                if (err) {
+                    console.log('Error: ', err);
+                }
+
+                //updating user name and email if provided
+                user.name = req.body.name;
+                user.email = req.body.email;
+
+                //Checking if file is present in the request or not
+                if(req.file){
+
+                    const file = req.file;
+                    
+                    //For unique file name generation and storing location
+                    const key = `${AVATAR_FOLDER}/${uuidv4()}-${file.originalname}`;
+
+                    //Parameters required for uploading the file
+                    const params = {
+                        Bucket: AVATAR_BUCKET,
+                        Key: key,
+                        Body: file.buffer
+                    };
+
+                    //If user has already an avatar then deleting it
+                    if(user.avatar){
+                        //Function to delete s3 object
+                        s3.deleteObject({Bucket: AVATAR_BUCKET, Key: user.rawAvatar}, 
+                            function(err ,data){
+                            if (err) console.log(err, err.stack); // an error occurred
+                            console.log(data);                    // successful response
+                        });
+                    }
+
+                    //Getting URL for saving it to the user db and displaying the image on views
+                    let signedURL = await s3.getSignedUrlPromise('getObject', { 
+                        Bucket: AVATAR_BUCKET, 
+                        Key: key,
+                        Expires: 60 * 60 * 24 * 7
+                    });
+
+                    //Uploading the file
+                    s3.upload(params, function(err, data){
+                        if (err) {
+                            console.log('Error uploading file: ', err);
+                            req.flash('error', err);
+                            return res.redirect('back');
+                        }
+                        user.avatar = signedURL;           //Save object url in db
+                        user.rawAvatar = data.key;         //Saving the key for deleting the object later
+                        user.save();
+                        return res.redirect('back');
+                    });
+                } else {
+                    user.save();
+                    return res.redirect('back');
+                }
+            });
+
+        } catch(err) {
+            console.log(err);
+            req.flash('error', err);
+            return res.redirect('back');
+        }
+
+    /*###--UNCOMMENT FOR USING THE LOCAL STORAGE--###*/
+    /*
+      try{
+            let user = await User.findById(req.params.id);
             User.uploadedAvatar(req, res, function(err){
                 if(err){console.log('Error: ', err);}
 
@@ -112,6 +197,7 @@ module.exports.update = async function(req, res){
             req.flash('error', err);
             return res.redirect('back');
         }
+    */
     } else {
         //If user id doesn't matches but tries to edit
         req.flash('error', 'Unauthorized!');

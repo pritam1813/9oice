@@ -29,7 +29,7 @@ app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 
 app.use(express.static('./public'));
-app.use('/uploads', express.static(__dirname + '/uploads'));    //Making uploads path available to the browser
+//app.use('/uploads', express.static(__dirname + '/uploads'));    //Making uploads path available to the browser
 
 //Setting View Engine
 app.set('view engine', 'ejs');
