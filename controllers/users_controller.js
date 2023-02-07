@@ -78,15 +78,33 @@ module.exports.destroySession = function(req, res){
 };
 
 //Action for updating user data
-module.exports.update = function(req, res){
+module.exports.update = async function(req, res){
     //Update condition available only if logged in user id matches with the user data form id 
     if(req.user.id == req.params.id){
 
         //Mongo function to update user data
-        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
-            req.flash('success', 'Updated!');
+        try{
+            let user = await User.findById(req.params.id);
+            User.uploadedAvatar(req, res, function(err){
+                if(err){console.log('Error: ', err);}
+
+                user.name = req.body.name;
+                user.email = req.body.email;
+
+                //Checking if any file is being uploaded
+                if(req.file){
+                    //Saving the uploaded file path to avatar field in the user db
+                    user.avatar = User.avatarPath + '/' + req.file.filename;
+                }
+                user.save();
+                return res.redirect('back');
+            });
+
+        } catch(err) {
+            console.log(err);
+            req.flash('error', err);
             return res.redirect('back');
-        });
+        }
     } else {
         //If user id doesn't matches but tries to edit
         req.flash('error', 'Unauthorized!');
