@@ -1,29 +1,25 @@
 <h4>Profile</h4>
-
+<p><%= user_profile.name %></p>
+<p><%= user_profile.email %></p>
 <!--update form will be visible only to the respective authenticated users-->
 <% if(user.id == user_profile.id) { %>
-    <p><%= user_profile.name %></p>
-    <p><%= user_profile.email %></p>
-    <div class="mx-auto d-block w-25 p-3 user-forms">
-        <h4>Edit Details</h4>
-          <form action="/user/update/<%= user_profile.id %>" method="POST" enctype="multipart/form-data" class="needs-validation">
-              <div class="mb-3">
-                  <label for="InputName" class="form-label">Name</label>
-                  <input type="text" name="name" class="form-control" id="InputName" value="<%= user_profile.name %>" required>
-                </div>
-              <div class="mb-3">
-                <label for="InputEmail1" class="form-label">Email address</label>
-                <input type="email" name="email" class="form-control" id="InputEmail1" value="<%= user_profile.email %>" required>
-              </div>
-              <div class="mb-3">
-                <label for="Avatar" class="form-label">Profile Pic</label>
-                <input type="file" name="avatar" class="form-control" id="Avatar">
-              </div>
-              <button type="submit" class="btn btn-primary">Update</button>
-            </form>
-      </div>
-<% } else { %>
-    <!-- User can see other profile but form won't be visible -->
-    <p><%= user_profile.name %></p>
-    <p><%= user_profile.email %></p>
+  <img src="<%= user.avatar %>" alt="<%= user.name %>">
+  <div class="mx-auto d-block w-25 p-3 user-forms">
+    <h4>Edit Details</h4>
+      <form action="/user/update/<%= user_profile.id %>" method="POST" enctype="multipart/form-data" class="needs-validation">
+        <div class="mb-3">
+            <label for="InputName" class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" id="InputName" value="<%= user_profile.name %>" required>
+        </div>
+        <div class="mb-3">
+          <label for="InputEmail1" class="form-label">Email address</label>
+          <input type="email" name="email" class="form-control" id="InputEmail1" value="<%= user_profile.email %>" required>
+        </div>
+        <div class="mb-3">
+          <label for="Avatar" class="form-label">Profile Pic</label>
+          <input type="file" name="avatar" class="form-control" id="Avatar">
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+  </div>
 <% } %>

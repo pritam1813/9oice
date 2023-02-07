@@ -1,5 +1,7 @@
 /* Responsible for different actions within user Route */
 
+const fs = require('fs');
+const path = require('path');
 //Importing Database Models
 const User = require('../models/user');
 
@@ -93,6 +95,11 @@ module.exports.update = async function(req, res){
 
                 //Checking if any file is being uploaded
                 if(req.file){
+
+                    if(user.avatar && fs.existsSync(path.join(__dirname, '..', user.avatar))){
+                        //If Avatar is already present then deleting the avatar
+                        fs.unlinkSync(path.join(__dirname, '..', user.avatar));
+                    }
                     //Saving the uploaded file path to avatar field in the user db
                     user.avatar = User.avatarPath + '/' + req.file.filename;
                 }
