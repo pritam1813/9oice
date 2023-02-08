@@ -8,6 +8,7 @@ const db = require('./config/mongoose');                 //Importing the Databas
 const session = require('express-session');             //Library for creating Session and storing encrypted Session ID
 const passport = require('passport');                   //Importing passport js library
 const passportLocal = require('./config/passport-local'); //Passport local strategy from config folder
+const passportJWT = require('./config/passport-jwt');    ////Passport JWT strategy from config folder
 const MongoStore = require('connect-mongo');            //required fo storing the session cookie
 const sassMiddleware = require('express-dart-sass');    //Middleware for using scss
 const flash = require('connect-flash');                 //For displaying flash messages
