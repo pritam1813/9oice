@@ -4,7 +4,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     return res.send("<h1>V1</h1>");
 });
-
+router.use('/user', require('./user'));
 router.use('/posts', require('./posts'));
 
 module.exports = router;
