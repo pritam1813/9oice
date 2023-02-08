@@ -19,7 +19,11 @@ router.use('/posts', require('./posts'));
 //Access comment.js for handling "/comment" route Requests
 router.use('/comment', require('./comment'));
 
-//For undefined Routes/404 error
+//For Accessing api(s)
+router.use('/api', require('./api/index'));
+
+
+//For undefined Routes/404 error (KEEP IT AT THE END OF ALL ROUTES)
 router.use(homeController.handle404);
 
 //Export router to use in main index.js
