@@ -6,7 +6,7 @@ require('dotenv').config();                             //env module for hiding 
 const AWS = require('aws-sdk');                         //aws-sdk for s3 bucket storage access
 const { v4: uuidv4 } = require('uuid');                 //To Generate RFC-compliant UUIDs for file names
 const AVATAR_BUCKET = '9oice';                          //s3 bucket name
-const AVATAR_FOLDER = 'uploads/user/Avatars';           //s3 folder path
+const AVATAR_FOLDER = 'uploads/Avatars';                //s3 folder path
 /* Required when using local storage*/
 // const fs = require('fs');
 // const path = require('path');
@@ -118,7 +118,7 @@ module.exports.update = async function(req, res){
                     const file = req.file;
                     
                     //For unique file name generation and storing location
-                    const key = `${AVATAR_FOLDER}/${uuidv4()}-${file.originalname}`;
+                    const key = `${user.name}/${AVATAR_FOLDER}/${uuidv4()}-${file.originalname}`;
 
                     //Parameters required for uploading the file
                     const params = {
@@ -137,13 +137,6 @@ module.exports.update = async function(req, res){
                         });
                     }
 
-                    //Getting URL for saving it to the user db and displaying the image on views
-                    let signedURL = await s3.getSignedUrlPromise('getObject', { 
-                        Bucket: AVATAR_BUCKET, 
-                        Key: key,
-                        Expires: 60 * 60 * 24 * 7
-                    });
-
                     //Uploading the file
                     s3.upload(params, function(err, data){
                         if (err) {
@@ -151,8 +144,9 @@ module.exports.update = async function(req, res){
                             req.flash('error', err);
                             return res.redirect('back');
                         }
-                        user.avatar = signedURL;           //Save object url in db
-                        user.rawAvatar = data.key;         //Saving the key for deleting the object later
+
+                        user.avatar = process.env.PUBURL + `/${data.key}`;       //Saving object public url in db
+                        user.rawAvatarURL = data.key;                              //Saving the key for deleting the object later
                         user.save();
                         return res.redirect('back');
                     });
