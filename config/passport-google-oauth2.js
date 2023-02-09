@@ -22,8 +22,6 @@ passport.use(new GoogleStrategy({
     User.findOne({email: profile.emails[0].value}).exec((err, user) => {
       //Error handling
       if(err) { console.log("Error in google auth : ", err); return; }
-      console.log(accessToken, refreshToken);
-      console.log(profile);
 
       //If user is found return user
       if(user){

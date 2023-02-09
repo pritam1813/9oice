@@ -1,19 +1,20 @@
 /* Imports */
-const express = require('express');                     //Require Express from Node Module
-const cookieParser = require('cookie-parser');           //Importing cookie parser module for managing cookies 
-const app = express();                                  //Creating Express app
-const port = 3000;                                      //Default Port
-const expressLayouts = require('express-ejs-layouts');  //Importing Express ejs Layout module
-const db = require('./config/mongoose');                 //Importing the Database
-const session = require('express-session');             //Library for creating Session and storing encrypted Session ID
-const passport = require('passport');                   //Importing passport js library
-const passportLocal = require('./config/passport-local'); //Passport local strategy from config folder
-const passportJWT = require('./config/passport-jwt');    //Passport JWT strategy from config folder
+const express = require('express');                                             //Require Express from Node Module
+const cookieParser = require('cookie-parser');                                  //Importing cookie parser module for managing cookies 
+const app = express();                                                          //Creating Express app
+const port = 3000;                                                              //Default Port
+const expressLayouts = require('express-ejs-layouts');                          //Importing Express ejs Layout module
+const db = require('./config/mongoose');                                        //Importing the Database
+const session = require('express-session');                                     //Library for creating Session and storing encrypted Session ID
+const passport = require('passport');                                           //Importing passport js library
+const passportLocal = require('./config/passport-local');                       //Passport local strategy from config folder
+const passportJWT = require('./config/passport-jwt');                           //Passport JWT strategy from config folder
 const passportGoogleOauth = require('./config/passport-google-oauth2');         //Passport Google Oauth2 strategy from config folder
-const MongoStore = require('connect-mongo');            //required fo storing the session cookie
-const sassMiddleware = require('express-dart-sass');    //Middleware for using scss
-const flash = require('connect-flash');                 //For displaying flash messages
-const cstmFlashMware = require('./config/middleware');  //Custom middleware for flash messages
+const passportFacebookOauth = require('./config/passport-facebook');            //Passport Facebook strategy from config folder
+const MongoStore = require('connect-mongo');                                    //required fo storing the session cookie
+const sassMiddleware = require('express-dart-sass');                            //Middleware for using scss
+const flash = require('connect-flash');                                         //For displaying flash messages
+const cstmFlashMware = require('./config/middleware');                          //Custom middleware for flash messages
 
 //compiling scss into css before the server runs
 app.use(sassMiddleware({

@@ -11,11 +11,18 @@ router.get('/profile/:id', passport.checkAuthentication ,userController.profile)
 router.get('/signup', userController.signup);
 router.get('/login', userController.login);
 router.get('/logout', userController.destroySession);
+
+//Authentication using Google
 router.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
-router.get('/auth/google/callback', passport.authenticate(
-    'google', 
-    {failureRedirect: '/user/login'}
-    ),userController.create_session);
+router.get('/auth/google/callback', passport.authenticate('google', 
+{failureRedirect: '/user/login'}
+),userController.create_session);
+
+//Authentication using Facebook
+router.get('/auth/facebook', passport.authenticate('facebook'));
+router.get('/auth/facebook/callback', passport.authenticate('facebook', 
+{ failureRedirect: '/user/login' }),
+userController.create_session);
 
 //Using POST Method to control different actions of sending the data to the server
 router.post('/create', userController.create);  // Creating a user/Sending registration data to the server

@@ -26,6 +26,9 @@ const userSchema = new mongoose.Schema({
     },
     rawAvatarURL : {
         type: String
+    },
+    facebookId : {
+        type: String
     }
 }, {
     timestamps: true
