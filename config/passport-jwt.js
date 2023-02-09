@@ -9,21 +9,22 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 //For authentication User db is required
 const User = require('../models/user');
 
-let opts = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken,  //Extract the key from authorisation header
-    secretOrKey: "9oice"
+var opts = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: '9oice'
 }
 
+
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    //Finding User in db. The payload cotains user info
-    User.findOne({id: jwt_payload.sub}, function(err, user) {
+    User.findById(jwt_payload._id, function(err, user){
         if (err) {
             return done(err, false);
         }
-        if (user) {                             //If user found return user
+        if (user) {
             return done(null, user);
         } else {
-            return done(null, false);           //else user not found
+            return done(null, false);
+            // or you could create a new account
         }
     });
 }));
