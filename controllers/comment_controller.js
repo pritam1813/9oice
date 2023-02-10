@@ -18,7 +18,7 @@ module.exports.create = async function(req,res){
             post.comment.push(comment);                 //Using mongo's function to push the comment into the post database
             post.save();
 
-            comment = await comment.populate('user', 'name email');     //Populating the user's name and email in the newly created comment
+            comment = await comment.populate('user', 'name email avatar');     //Populating the user's name and email in the newly created comment
             commentMailer.newComment(comment);                          //calling the mailer function to send the email
 
             if(req.xhr){
