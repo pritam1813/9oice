@@ -22,7 +22,7 @@ passport.use(new FacebookStrategy({
       if(user){
         return cb(null, user);
       }
-      //Else Create user with the google account email and name 
+      //Else Create user with the facebook account id and name 
       else {
         User.create({
           facebookId: profile.id,
