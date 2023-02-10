@@ -9,6 +9,8 @@ module.exports.create = async function(req, res){
             user: req.user._id
         });
 
+        post = await post.populate('user', 'name');
+
         if(req.xhr){                             //Checking if the request is of xml http request(AJAX req)
             
             return res.status(200).json({

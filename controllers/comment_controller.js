@@ -1,5 +1,6 @@
 const Comment = require('../models/comment'); //Importing Comment model
 const Posts = require('../models/posts');       //Importing post model
+const commentMailer = require('../mailers/comment_mailer');
 
 //Action for handling user Comments
 module.exports.create = async function(req,res){
@@ -16,6 +17,9 @@ module.exports.create = async function(req,res){
 
             post.comment.push(comment);                 //Using mongo's function to push the comment into the post database
             post.save();
+
+            comment = await comment.populate('user', 'name email');
+            commentMailer.newComment(comment);
 
             if(req.xhr){
                 //comment = await comment.populate('user', 'name').execPopulate();
