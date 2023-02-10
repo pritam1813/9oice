@@ -1,17 +1,17 @@
 "use strict";
 const nodemailer = require("nodemailer");
-const path = require('path');
+const port = require('port');
 const ejs = require('ejs');
 require('dotenv').config();
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
+    host: 'smtp.gmail.com',
     port: 587,
     secure: false,
     auth: {
-        user: 'sammy2@ethereal.email',
-        pass: '9pnwsTN9R7XKubWPzC'
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
     }
 });
 
