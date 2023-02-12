@@ -1,8 +1,7 @@
 const Comment = require('../models/comment');                   //Importing Comment model
 const Posts = require('../models/posts');                       //Importing post model
-const commentMailer = require('../mailers/comment_mailer');     //Comment Mailer for sending mails
-const queue = require('../config/bull');
-const emailWorker = require('../workers/emails_worker');
+const { newCommentEmail } = require('../queues/Email_Queues');  //Queue for sending mail on new comment
+const emailWorker = require('../workers/emails_worker');        //Workers for sending mails
 
 //Action for handling user Comments
 module.exports.create = async function(req,res){
@@ -23,7 +22,8 @@ module.exports.create = async function(req,res){
             comment = await comment.populate('user', 'name email avatar');     //Populating the user's name and email in the newly created comment
             //commentMailer.newComment(comment);                          //calling the mailer function to send the email
 
-            queue.add('emails', comment, {delay: 1000 * 60});
+            //Adding the comment mailer process to the queue
+            newCommentEmail.add('comments', comment);
 
             if(req.xhr){
 

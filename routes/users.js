@@ -36,5 +36,17 @@ router.post('/create_session',passport.authenticate(
 //Route for editing profile
 router.post('/update/:id', passport.checkAuthentication, userController.update);
 
+//Route for Forgot password Link
+router.get('/forgot-password', userController.forgotPassword);
+
+//Route for reset password Link Generation
+router.post('/resetpasswordlink', userController.resetPasswordLink);
+
+//Route for Resetting Password page
+router.get('/reset_password/:resetPassToken', userController.reset_Password)
+
+//Route for Updating password action
+router.post('/updatePassword/:resetPassToken', userController.updatePassword);
+
 //Exporting this router to make it accessible by main index Router
 module.exports = router;

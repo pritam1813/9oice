@@ -1,15 +1,19 @@
 /* Responsible for different actions within user Route */
 
 //Imports
-const User = require('../models/user');                 //Database Model user
-require('dotenv').config();                             //env module for hiding sensitive info
-const AWS = require('aws-sdk');                         //aws-sdk for s3 bucket storage access
-const { v4: uuidv4 } = require('uuid');                 //To Generate RFC-compliant UUIDs for file names
-const AVATAR_BUCKET = '9oice';                          //s3 bucket name
-const AVATAR_FOLDER = 'uploads/Avatars';                //s3 folder path
+const User = require('../models/user');                                 //Database Model user
+const ResetuserPassword = require('../models/reset_password_token');
+require('dotenv').config();                                             //env module for hiding sensitive info
+const AWS = require('aws-sdk');                                         //aws-sdk for s3 bucket storage access
+const { v4: uuidv4 } = require('uuid');                                 //To Generate RFC-compliant UUIDs for file names
+const AVATAR_BUCKET = '9oice';                                          //s3 bucket name
+const AVATAR_FOLDER = 'uploads/Avatars';                                //s3 folder path
 /* Required when using local storage*/
 // const fs = require('fs');
 // const path = require('path');
+const { resetPassEmail } = require('../queues/Email_Queues');           //Queue for sending mail on reset password
+const emailWorker = require('../workers/emails_worker');                //Workers for sending mails
+const crypto = require('node:crypto');                                  //crypto module for generating random String
 
 // Configuring the AWS SDK
 const s3 = new AWS.S3({
@@ -198,4 +202,127 @@ module.exports.update = async function(req, res){
         return res.status(401).send("Unauthorized Access");
     }
 
+}
+
+//Action for the clicking link Forgot Password
+module.exports.forgotPassword = (req, res) => {
+    return res.render('ForgotPassword', {title: 'Forgot Password'});
+}
+
+//Action for requesting Reset Password
+module.exports.resetPasswordLink = async function(req, res){
+    try{
+
+        let user = await User.findOne({ email: req.body.email});        //Finding the user with given email
+        
+        //If found then send Email with link
+        if(user){
+
+            //Finding resetuserpassword DB if exists for the user
+            let resetuserpassword = await ResetuserPassword.findOne({user : user});
+            
+            //If resetuserpassword DB for the user exists
+            if(resetuserpassword ){
+
+                //checking expires field in the db to make sure valid link
+                if((resetuserpassword.expires < Date.now())){
+                    console.log("Token Expired Generating new");
+                    resetuserpassword.resetPassToken = crypto.randomBytes(20).toString("hex");      //updating the token
+                    resetuserpassword.expires = Date.now() + (1000 * 60 * 10);                      //updating expiry
+                    await resetuserpassword.save();
+                }
+            }
+            else {
+                //If resetuserpassword DB for the user doesnot exists then creating one
+                resetuserpassword = await ResetuserPassword.create({
+                    user: user,
+                    resetPassToken: crypto.randomBytes(20).toString("hex"),                     //Generating the token
+                    expires: Date.now() + (1000 * 60 * 10)                                      //10 minute
+                });
+            }
+            resetuserpassword = await resetuserpassword.populate('user', 'email name');         //Populating user's email field for sending the mail
+            await resetuserpassword.save();
+
+            await resetPassEmail.add('resetPass', resetuserpassword);                           //Calling the emailworker
+
+            req.flash('success', 'Email sent');
+            return res.redirect('back');
+        }
+        //If user not found then error
+        else{
+            req.flash('error', 'User Not Found !!');
+            return res.redirect('back');
+        }
+    } catch(err) {
+        console.log(`Error: ${err}`);
+        return;
+    }
+}
+
+//Action for rendering the reset password page
+module.exports.reset_Password = async function(req, res){
+    
+    try {
+        //Finding in resetuserpassword DB for the user using the token from the params
+        let resetuserpassword = await ResetuserPassword.findOne({
+            resetPassToken: req.params.resetPassToken,
+        });
+
+        //If there is no DB
+        if (!resetuserpassword) {
+            req.flash('error', 'Link not found');
+            return res.redirect('/user/login');
+        }
+        //If there is DB then checking expires field
+        if(resetuserpassword.expires < Date.now()){
+            req.flash('error', 'Link Expired');
+            await resetuserpassword.remove();
+            return res.redirect('/user/login');
+        }
+
+        //If above conditions are false then rendering the page
+        res.render("ResetPassword", { 
+            resetPassToken: resetuserpassword.resetPassToken,
+            title: 'Reset Password' 
+        });
+    } catch (err) {
+        console.log(`Error: ${err}`);
+        return;
+    }
+}
+
+module.exports.updatePassword = async function(req, res){
+
+    try{
+        //Verifying User's Entered password and confirm password
+        if(req.body.password != req.body.confirm_password){
+            req.flash('error',"Password Doesn't match");
+            return res.redirect('back');
+        }
+
+        //If password matches then finding the DB with valid token and expiry
+        let resetuserpassword = await ResetuserPassword.findOne({
+            resetPassToken: req.params.resetPassToken,
+            expires: { $gt: Date.now() }
+        });
+
+        //If resetuserpassword DB found then finding user with the id from it's user field
+        let user = await User.findById(resetuserpassword.user);
+
+        if (!user){
+            console.log('Link not found or expired');
+            return res.redirect('/user/login');
+        }
+        //Updating and saving the user's new password
+        user.password = req.body.password;
+        await user.save();
+        await resetuserpassword.remove();
+
+        req.flash('success', 'Password reset successfully');
+        return res.redirect('/user/login');
+        
+    } catch(err){
+        console.log(`Error: ${err}`);
+        return;
+    }
 }
