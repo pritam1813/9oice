@@ -8,6 +8,8 @@ const {S3} = require("@aws-sdk/client-s3");                             //aws-sd
 const { v4: uuidv4 } = require('uuid');                                 //To Generate RFC-compliant UUIDs for file names
 const AVATAR_BUCKET = '9oice';                                          //s3 bucket name
 const AVATAR_FOLDER = 'uploads/Avatars';                                //s3 folder path
+const { avatarQueue } = require('../queues/Image_queue');
+const imageWorker = require('../workers/image_worker');
 /* Required when using local storage*/
 // const fs = require('fs');
 // const path = require('path');
@@ -121,44 +123,15 @@ module.exports.update = async function(req, res){
 
                 //Checking if file is present in the request or not
                 if(req.file){
-
-                    const file = req.file;
-                    
-                    //For unique file name generation and storing location
-                    const key = `${user.name}/${AVATAR_FOLDER}/${uuidv4()}-${file.originalname}`;
-
-                    //Parameters required for uploading the file
-                    const params = {
-                        Bucket: AVATAR_BUCKET,
-                        Key: key,
-                        Body: file.buffer
-                    };
-
-                    //If user has already an avatar then deleting it
-                    if(user.rawAvatarURL){
-                        //Function to delete s3 object
-                        s3.deleteObject({Bucket: AVATAR_BUCKET, Key: user.rawAvatarURL}, 
-                            function(err ,data){
-                            if (err) console.log(err, err.stack); // an error occurred
-                        });
-                    }
-
-                    //Uploading the file
-                    s3.putObject(params, function(err){
-                        if (err) {
-                            console.log('Error uploading file: ', err);
-                            req.flash('error', err);
-                            return res.redirect('back');
-                        }
-                            
+                //enqueue job for avatar upload
+                    avatarQueue.add('avatarImage',{
+                        userId: req.params.id,
+                        file: req.file
                     });
-                    user.avatar = process.env.PUBURL + `/${key}`;           //Saving object public url in db
-                    user.rawAvatarURL = `${key}`;                           //Saving the key for deleting the object later
                 }
-                await user.save();
-                
-                return res.redirect('back');
             });
+            await user.save();
+            return res.redirect('back');
 
         } catch(err) {
             console.log(err);
