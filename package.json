@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/pritam1813/9oice#readme",
   "dependencies": {
-    "aws-sdk": "^2.1310.0",
+    "@aws-sdk/client-s3": "^3.272.0",
     "bull": "^4.10.4",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^4.6.0",
