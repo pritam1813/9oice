@@ -4,10 +4,6 @@
 const User = require('../models/user');                                 //Database Model user
 const ResetuserPassword = require('../models/reset_password_token');
 require('dotenv').config();                                             //env module for hiding sensitive info
-const {S3} = require("@aws-sdk/client-s3");                             //aws-sdk for s3 bucket storage access
-const { v4: uuidv4 } = require('uuid');                                 //To Generate RFC-compliant UUIDs for file names
-const AVATAR_BUCKET = '9oice';                                          //s3 bucket name
-const AVATAR_FOLDER = 'uploads/Avatars';                                //s3 folder path
 const { avatarQueue } = require('../queues/Image_queue');
 const imageWorker = require('../workers/image_worker');
 /* Required when using local storage*/
@@ -16,17 +12,6 @@ const imageWorker = require('../workers/image_worker');
 const { resetPassEmail } = require('../queues/Email_Queues');           //Queue for sending mail on reset password
 const emailWorker = require('../workers/emails_worker');                //Workers for sending mails
 const crypto = require('node:crypto');                                  //crypto module for generating random String
-
-// Configuring the AWS SDK
-const s3 = new S3({
-    region: 'auto',
-    credentials: {
-        accessKeyId: process.env.ACCESS_KEY_ID,
-        secretAccessKey: process.env.SECRET_ACCESS_KEY
-    },
-    endpoint: process.env.ENDPOINT,
-    signatureVersion: 'v4'
-});
 
 //user profile route
 module.exports.profile = function(req,res){
