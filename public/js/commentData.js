@@ -30,6 +30,9 @@ class PostComments{
                     $(`#post-comment-${postId}`).prepend(newComment);
                     pSelf.deleteComment($(' .delete-comment-button', newComment));
 
+                    // CHANGE :: enable the functionality of the toggle like button on the new comment
+                    new ToggleLike($(' .toggle-like-button', newComment));
+                    
                     new Noty({
                         theme: 'relax',
                         text: "Comment Added!",
@@ -51,7 +54,9 @@ class PostComments{
         <div id="comment-user">${comment.user.name}</div>
         <div id="comment-content">${comment.content}</div>
         <div id="comment-time">${comment.createdAt.toLocaleString()}</div>
-
+        <a class="toggle-like-button" data-likes="${comment.likes.length}" href="/likes/toggle/?id=${comment._id}&type=Comment">
+         0 Likes
+        </a>
             <span id="delete-comment" >
                 <a class="delete-comment-button" href="/comment/destroy/${comment._id}"><i class="fa-solid fa-trash"></i></a>
             </span>

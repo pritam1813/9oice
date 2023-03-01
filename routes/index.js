@@ -19,6 +19,9 @@ router.use('/posts', require('./posts'));
 //Access comment.js for handling "/comment" route Requests
 router.use('/comment', require('./comment'));
 
+//Access likes.js for handling /likes route
+router.use('/likes', require('./likes'));
+
 //For Accessing api(s)
 router.use('/api', require('./api/index'));
 

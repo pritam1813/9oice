@@ -15,7 +15,13 @@ const commentSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,       //Referencing Each Comments to a User
         ref: 'User'
-    }
+    },
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Like'
+        }
+    ]
 },{
     timestamps: true
 });
