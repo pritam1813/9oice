@@ -2,6 +2,7 @@
 
 //Imports
 const User = require('../models/user');                                 //Database Model user
+const Friends = require('../models/friendships');
 const ResetuserPassword = require('../models/reset_password_token');
 require('dotenv').config();                                             //env module for hiding sensitive info
 const { avatarQueue } = require('../queues/Image_queue');
@@ -13,17 +14,25 @@ const { resetPassEmail } = require('../queues/Email_Queues');           //Queue 
 const emailWorker = require('../workers/emails_worker');                //Workers for sending mails
 const crypto = require('node:crypto');                                  //crypto module for generating random String
 
-//user profile route
-module.exports.profile = function(req,res){
-
-    User.findById(req.params.id , function(err, user){
-        
-        return res.render('profile', { 
-            title : 'Profile',
-            user_profile: user
+module.exports.profile = async function (req, res) {
+    try {
+      const user = await User.findById(req.params.id)
+        .populate({
+          path: 'friends',
+          populate: {
+            path: 'from_user to_user',
+            select: 'name'
+          }
         });
-    });
-};
+  
+      return res.render('profile', {
+        title: 'Profile',
+        user_profile: user
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 //User Sign Up route for rendering Sign Up page
 module.exports.signup = function(req,res){

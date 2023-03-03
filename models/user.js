@@ -1,5 +1,6 @@
 // Importing mongoose.js for creating mongoDB schemas
 const mongoose = require('mongoose');
+const Friends = require('./friendships');         //user model
 const multer  = require('multer');                      // Middleware for uploading files
 
 /* Required when using Local storage */
@@ -29,7 +30,13 @@ const userSchema = new mongoose.Schema({
     },
     facebookId : {
         type: String
-    }
+    },
+    friends: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Friends'
+        }
+    ]
 }, {
     timestamps: true
 });

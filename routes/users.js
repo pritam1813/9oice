@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();                                    //Funtion to specify different routes 
 const userController = require('../controllers/users_controller');  //Importing User Controller
 const passport = require('passport');                               //Importing passport module
-
+const friendsController = require('../controllers/friends_controller');
 //Using GET Method to access Different User Routes (defined in user_controller.js)
 router.get('/profile/:id', passport.checkAuthentication ,userController.profile);   //Only visible to Authenticated User
 router.get('/signup', userController.signup);
@@ -48,5 +48,7 @@ router.get('/reset_password/:resetPassToken', userController.reset_Password)
 //Route for Updating password action
 router.post('/updatePassword/:resetPassToken', userController.updatePassword);
 
+router.post('/addFriend/:id', friendsController.addFriend);
+router.post('/removeFriend/:id', friendsController.removeFriend);
 //Exporting this router to make it accessible by main index Router
 module.exports = router;
