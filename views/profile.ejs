@@ -1,71 +1,90 @@
 <link rel="stylesheet" href="/assets/css/profile.css"> 
 
-<div class="container" id="userDetails">
-  <div class="row" >
-    <div class="col" id="name-email">
-      <h4>Profile</h4>
-      <p><%= user_profile.name %></p>
-      <p><%= user_profile.email %></p>
-    </div>
+<div id="profileContainer" class="container-fluid">
+  <section id="user-info">
+
+    <div class="container">
+      <div class="row" id="name-email">
+        <div class="col">
+          <h4>Account Details</h4>
+          <p><%= user_profile.name %></p>
+          <p><%= user_profile.email %></p>
+        </div>
+      </div>
+      <!--update form and avatar will be visible only to the respective authenticated users-->
+      <% if(user.id == user_profile.id) { %>
+        <div class="row">
+          <div class="col" id="Useravatar">
+            <img src="<%= user.avatar %>" alt="<%= user.name %>" style="width: 120px; height: 120px;">
+          </div>
+        </div>
   
-<!--update form will be visible only to the respective authenticated users-->
-<% if(user.id == user_profile.id) { %>
+        <div class="row mx-auto d-block w-25 p-3 user-forms">
+          <div class="col">
   
-    <div class="col" id="friends-list">
-      <h4>Friends</h4>
-      <% for(friend of user_profile.friends) { %>
-        <% if(user_profile.id == friend.from_user.id) { %>
-          <p><a href="/user/profile/<%= friend.to_user.id %>"><%= friend.to_user.name %></a></p>
-        <% } else { %>
-          <p><a href="/user/profile/<%= friend.from_user.id %>"><%= friend.from_user.name %></a></p>
-        <% } %>  
+          <h4>Edit Details</h4>
+          <form action="/user/update/<%= user_profile.id %>" method="POST" enctype="multipart/form-data" class="needs-validation">
+            <div class="mb-3">
+                <label for="InputName" class="form-label">Name</label>
+                <input type="text" name="name" class="form-control" id="InputName" value="<%= user_profile.name %>" required>
+            </div>
+            <div class="mb-3">
+              <label for="InputEmail1" class="form-label">Email address</label>
+              <input type="email" name="email" class="form-control" id="InputEmail1" value="<%= user_profile.email %>" required>
+            </div>
+            <div class="mb-3">
+              <label for="Avatar" class="form-label">Profile Pic</label>
+              <input type="file" name="avatar" class="form-control" id="Avatar">
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+      
+          </div>
+        </div>
+      <% } else { %>
+        <% let isFriend = false %>
+        <% let Friendid = null %>
+        <% for(friend of user_profile.friends) { %>
+          <% if(user.id == friend.from_user.id || user.id == friend.to_user.id) { %>
+            <% isFriend = true %>
+            <% Friendid = friend.id %>
+            <% break %> 
+          <% } %>  
+        <% } %>
+
+        <div class="row">
+          <div class="col" id="FriendAction">
+            <% if(isFriend) { %>
+              <form id="REMOVEFRIEND" action="/user/removeFriend/<%= Friendid %>" method="post">
+                <button type="submit" class="btn btn-primary">Unfriend</button>
+              </form>  
+            <% } else { %>
+              <form id="ADDFRIEND" action="/user/addFriend/<%= user_profile.id %>" method="post">
+                <button type="submit" class="btn btn-primary">Add Friend</button>
+              </form>
+
+            <% } %>
+          </div>
+        </div>
+        
       <% } %>
     </div>
-  </div>
-  <div class="row">
-    <div class="col" id="Useravatar">
-      <img src="<%= user.avatar %>" alt="<%= user.name %>" style="width: 120px; height: 120px;">
-    </div>
-  </div>
+  </section>
+
+  <% if(user.id == user_profile.id) { %>
+  <section id="userfriends">
+      <div class="col" id="friends-list">
+        <h4>Friends</h4>
+        <% for(friend of user_profile.friends) { %>
+          <% if(user_profile.id == friend.from_user.id) { %>
+            <p><a href="/user/profile/<%= friend.to_user.id %>"><%= friend.to_user.name %></a></p>
+          <% } else { %>
+            <p><a href="/user/profile/<%= friend.from_user.id %>"><%= friend.from_user.name %></a></p>
+          <% } %>  
+        <% } %>
+      </div>
+  </section>
+  <% } %>
 </div>
-  <div class="mx-auto d-block w-25 p-3 user-forms">
-    <h4>Edit Details</h4>
-      <form action="/user/update/<%= user_profile.id %>" method="POST" enctype="multipart/form-data" class="needs-validation">
-        <div class="mb-3">
-            <label for="InputName" class="form-label">Name</label>
-            <input type="text" name="name" class="form-control" id="InputName" value="<%= user_profile.name %>" required>
-        </div>
-        <div class="mb-3">
-          <label for="InputEmail1" class="form-label">Email address</label>
-          <input type="email" name="email" class="form-control" id="InputEmail1" value="<%= user_profile.email %>" required>
-        </div>
-        <div class="mb-3">
-          <label for="Avatar" class="form-label">Profile Pic</label>
-          <input type="file" name="avatar" class="form-control" id="Avatar">
-        </div>
-        <button type="submit" class="btn btn-primary">Update</button>
-      </form>
-  </div>
-<% } %>
 
-<% if(user.id != user_profile.id) { %>
-  <% let isFriend = false %>
-  <% let Friendid = null %>
-  <% for(friend of user_profile.friends) { %>
-    <% if(user.id == friend.from_user.id || user.id == friend.to_user.id) { %>
-      <% isFriend = true %>
-      <% Friendid = friend.id %>
-      <% break %> 
-    <% } %>  
-  <% } %>
-
-  <% if(isFriend) { %>
-    <form action="/user/removeFriend/<%= Friendid %>" method="post">
-      <button type="submit" class="btn btn-primary">Unfriend</button>
-    </form>  
-  <% } else { %>
-    <form action="/user/addFriend/<%= user_profile.id %>" method="post">
-      <button type="submit" class="btn btn-primary">Add Friend</button>
-    </form>
-  <% } %>
-<% } %>
+<script src="/js/userFriends.js"></script>

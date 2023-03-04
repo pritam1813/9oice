@@ -39,6 +39,15 @@ module.exports.addFriend = async function (req, res) {
             toUser.friends.push(friend);
             await toUser.save();
 
+            if (req.xhr) {                             //Checking if the request is of xml http request(AJAX req)
+                return res.status(200).json({
+                    data: {
+                        friend: friend
+                    },
+                    message: "Friend ADDED"
+                });
+            }
+
             req.flash('success', 'Friend Added');
         }
 
@@ -56,10 +65,27 @@ module.exports.removeFriend = async function (req, res) {
         let fromUser = friendship.from_user._id;
         let toUser = friendship.to_user._id;
 
+        let userId;
+        if(req.user.id == fromUser){
+            userId = toUser
+        } else {
+            userId = fromUser
+        }
+
         await friendship.remove();
+
 
         await User.findByIdAndUpdate(fromUser, { $pull: { friends: req.params.id } });
         await User.findByIdAndUpdate(toUser, { $pull: { friends: req.params.id } });
+        
+        if (req.xhr) {                             //Checking if the request is of xml http request(AJAX req)
+            return res.status(200).json({
+                data: {
+                    userId: userId
+                },
+                message: "Friend REMOVED"
+            });
+        }
         req.flash('success', 'Friend removed');
         return res.redirect('back');
     } catch (error) {

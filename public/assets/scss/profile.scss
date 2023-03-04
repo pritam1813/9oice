@@ -1,4 +1,28 @@
-#userDetails{
-    margin-top: 1rem;
-    margin-bottom: 2rem;
+@import "modules/mixin";
+
+#profileContainer{
+    display: flex;
+
+    section{
+        &#user-info{
+            @include basic-margin-padding;
+
+            .user-forms {
+                /* Using pseudo classes to control the width */
+              & {
+                width: 70%; //width for logged in users
+              }
+            }
+            &:not(.user-forms) {
+              width: 100%;      //width for logged out users since friend section is not visible
+            }
+        }
+
+        &#userfriends{
+            @include basic-margin-padding;
+            width: 30%;
+            border-left: 1px solid darkgray;
+
+        }
+    }
 }

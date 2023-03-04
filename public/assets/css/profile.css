@@ -1,4 +1,22 @@
-#userDetails {
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+#profileContainer {
+  display: flex;
+}
+#profileContainer section#user-info {
+  margin: 1rem;
+  padding: 1rem;
+}
+#profileContainer section#user-info .user-forms {
+  /* Using pseudo classes to control the width */
+}
+#profileContainer section#user-info .user-forms {
+  width: 70%;
+}
+#profileContainer section#user-info:not(.user-forms) {
+  width: 100%;
+}
+#profileContainer section#userfriends {
+  margin: 1rem;
+  padding: 1rem;
+  width: 30%;
+  border-left: 1px solid darkgray;
 }
