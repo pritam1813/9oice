@@ -1,5 +1,6 @@
 {
     let addFriend = function () {
+
         let addfriendButton = $('#ADDFRIEND');
 
         addfriendButton.submit(function (e) {
@@ -10,6 +11,7 @@
                 type: 'post',
                 url: self.prop('action'),
                 success: function (data) {
+                    console.log(data.data.friend);
                     let newRemoveButton = buttonDom('Unfriend', `/user/removeFriend/${data.data.friend._id}`, 'REMOVEFRIEND');
                     $('#FriendAction').html(newRemoveButton);
 
@@ -19,16 +21,19 @@
                         type: 'success',
                         layout: 'topRight',
                         timeout: 1500
+
                     }).show();
 
-                    // Call removeFriend() after the new button is added to the DOM
-                    removeFriend();
+                    // Attach event listener to Unfriend button if it exists
+                    if ($('#REMOVEFRIEND').length > 0) {
+                        removeFriend();
+                    }
                 }, error: function (error) {
                     console.log(error.responseText);
                 }
             });
         });
-    };
+    }
 
     let removeFriend = function () {
         let removefriendButton = $('#REMOVEFRIEND');
@@ -51,25 +56,30 @@
                         type: 'success',
                         layout: 'topRight',
                         timeout: 1500
+
                     }).show();
 
-                    // Call addFriend() after the new button is added to the DOM
-                    addFriend();
+                    // Attach event listener to Add Friend button if it exists
+                    if ($('#ADDFRIEND').length > 0) {
+                        addFriend();
+                    }
                 }, error: function (error) {
                     console.log(error.responseText);
                 }
             });
         });
-    };
+    }
 
     let buttonDom = function (text, actionurl, ID) {
         return $(`
-          <form id="${ID}" action="${actionurl}" method="post">
-            <button type="submit" class="btn btn-primary">${text}</button>
-          </form>
-        `);
-    };
+            <form id="${ID}" action="${actionurl}" method="post">
+                <button type="submit" class="btn btn-primary">${text}</button>
+            </form>
+        `)
+    }
 
+    // Attach event listeners to buttons on page load
     addFriend();
+    removeFriend();
 
 }
