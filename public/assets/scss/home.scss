@@ -25,8 +25,8 @@
         border-left: 1px solid darkgray;
         @include basic-margin-padding;
 
-        //Friends List style
-        ul{
+        //User List style
+        #user-list{
             list-style: none;
             position: fixed;
             

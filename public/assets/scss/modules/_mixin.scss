@@ -2,3 +2,8 @@
     margin: 1rem;
     padding: 1rem;
 }
+
+@mixin no-margin-padding{
+    margin: 0;
+    padding: 0;
+}

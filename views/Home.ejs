@@ -29,7 +29,7 @@
      <% if(locals.user) { %>
         <!-- Friends -->
         <section id="user-friends">
-            <ul>
+            <ul id="user-list">
                 <h4>Users</h4>
                 <% for(u of all_users) { %> 
                     <li>
@@ -39,9 +39,9 @@
                 <% } %>
             </ul>
 
-            <div id="chatbox">
-                <%- include('partials/chatbox') %>
-            </div>
+            
+            <%- include('partials/chatbox') %>
+            
         </section>
     <% } %>
 </div>

@@ -21,14 +21,14 @@
   margin: 1rem;
   padding: 1rem;
 }
-#home-container section#user-friends ul {
+#home-container section#user-friends #user-list {
   list-style: none;
   position: fixed;
 }
-#home-container section#user-friends ul a {
+#home-container section#user-friends #user-list a {
   color: rgb(110, 4, 110);
   text-decoration: none;
 }
-#home-container section#user-friends ul i {
+#home-container section#user-friends #user-list i {
   color: darkcyan;
 }
