@@ -15,6 +15,10 @@ const MongoStore = require('connect-mongo');                                    
 const sassMiddleware = require('express-dart-sass');                            //Middleware for using scss
 const flash = require('connect-flash');                                         //For displaying flash messages
 const cstmFlashMware = require('./config/middleware');                          //Custom middleware for flash messages
+const chatServer = require('http').Server(app);                                 //Passing Express app to http server for using it as chatserver
+const chatSocket = require('./config/chat_socket').chatsocket(chatServer);      //importing chatsocket config and passing the chatserver to it's function
+chatServer.listen(5000);
+console.log("Chatserver is listening on port : 5000");
 
 //compiling scss into css before the server runs
 app.use(sassMiddleware({
