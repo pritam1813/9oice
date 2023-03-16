@@ -5,13 +5,13 @@
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-
+require('dotenv').config();
 //For authentication User db is required
 const User = require('../models/user');
 
 var opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: '9oice'
+    secretOrKey: process.env.JWT_SECRET_KEY
 }
 
 

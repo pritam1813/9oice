@@ -1,5 +1,6 @@
 const User = require('../../../models/user');   //User DB
 const jwt = require('jsonwebtoken');            //JWT Library
+require('dotenv').config();
 
 module.exports.createSession = async (req, res) => {
     try{
@@ -17,7 +18,7 @@ module.exports.createSession = async (req, res) => {
         return res.status(200).json({
             message: "Signed in",
             data: {
-                token: jwt.sign(user.toJSON(), '9oice', {expiresIn: "7d"})
+                token: jwt.sign(user.toJSON(), process.env.JWT_SECRET_KEY , {expiresIn: "7d"})
             }
         });
 

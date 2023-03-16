@@ -1,5 +1,7 @@
 /* Imports */
 const express = require('express');                                             //Require Express from Node Module
+const logger = require('morgan');
+const logs = require('./config/logs_config');
 const cookieParser = require('cookie-parser');                                  //Importing cookie parser module for managing cookies 
 const app = express();                                                          //Creating Express app
 const port = 3000;                                                              //Default Port
@@ -19,11 +21,13 @@ const chatServer = require('http').Server(app);                                 
 const chatSocket = require('./config/chat_socket').chatsocket(chatServer);      //importing chatsocket config and passing the chatserver to it's function
 chatServer.listen(5000);
 console.log("Chatserver is listening on port : 5000");
+const path = require('path');
+require('dotenv').config();
 
 //compiling scss into css before the server runs
 app.use(sassMiddleware({
-    src: './public/assets/scss',
-    dest: './public/assets/css',
+    src: path.join(__dirname, process.env.ASSET_PATH, '/assets/scss'),
+    dest: path.join(__dirname, process.env.ASSET_PATH, '/assets/css'),
     debug: true,
     outputStyle: 'expanded',
     prefix: '/assets/css'
@@ -38,6 +42,8 @@ app.use(cookieParser());
 app.use(express.static('./public'));
 //app.use('/uploads', express.static(__dirname + '/uploads'));    //Making uploads path available to the browser
 
+app.use(logger(logs.morgan.mode, logs.morgan.options));
+
 //Setting View Engine
 app.set('view engine', 'ejs');
 app.set('views', './views'); //Setting views in the 'views' folder
@@ -46,7 +52,7 @@ app.set('views', './views'); //Setting views in the 'views' folder
 //Defining session and cookie properties
 app.use(session({
     name: '9oice',
-    secret: '007sectretservice',                //used to encrypt the cookie
+    secret: process.env.SESSION_COOKIE_KEY,                //used to encrypt the cookie
     saveUninitialized: false,
     resave: false,
     cookie:{
