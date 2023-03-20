@@ -6,7 +6,9 @@
   "scripts": {
     "start": "nodemon index.js || node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod_start": "nodemon index.js"
+    "prod_start": "NODE_ENV=production nodemon index.js || node index.js",
+    "dev_start": "NODE_ENV=development nodemon index.js || node index.js",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -47,5 +49,22 @@
     "rotating-file-stream": "^3.1.0",
     "socket.io": "^4.6.1",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "babel-loader": "^9.1.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.3",
+    "css-minimizer-webpack-plugin": "^4.2.2",
+    "glob": "^9.3.0",
+    "image-minimizer-webpack-plugin": "^3.8.2",
+    "mini-css-extract-plugin": "^2.7.5",
+    "null-loader": "^4.0.1",
+    "responsive-loader": "^3.1.2",
+    "sass-loader": "^13.2.1",
+    "sharp": "^0.31.3",
+    "terser-webpack-plugin": "^5.3.7",
+    "webpack-cli": "^5.0.1",
+    "webpack-fix-style-only-entries": "^0.6.1",
+    "webpack-manifest-plugin": "^5.0.0"
   }
 }

@@ -1,9 +1,10 @@
 /* Imports */
 const express = require('express');                                             //Require Express from Node Module
 const logger = require('morgan');
-const logs = require('./config/logs_config');
+const env = require('./config/environment');
 const cookieParser = require('cookie-parser');                                  //Importing cookie parser module for managing cookies 
 const app = express();                                                          //Creating Express app
+require('./config/view_helper')(app);                                           //For appending dynimic asset path to the views
 const port = 3000;                                                              //Default Port
 const expressLayouts = require('express-ejs-layouts');                          //Importing Express ejs Layout module
 const db = require('./config/mongoose');                                        //Importing the Database
@@ -25,13 +26,15 @@ const path = require('path');
 require('dotenv').config();
 
 //compiling scss into css before the server runs
-app.use(sassMiddleware({
-    src: path.join(__dirname, process.env.ASSET_PATH, '/assets/scss'),
-    dest: path.join(__dirname, process.env.ASSET_PATH, '/assets/css'),
-    debug: true,
-    outputStyle: 'expanded',
-    prefix: '/assets/css'
-}));
+if(env.name == 'development') {
+    app.use(sassMiddleware({
+        src: path.join(__dirname, env.asset_path, '/assets/scss'),
+        dest: path.join(__dirname, env.asset_path, '/assets/css'),
+        debug: true,
+        outputStyle: 'expanded',
+        prefix: '/assets/css'
+    }));
+}
 
 //Using middleware express.urlencoded() for POST requests
 app.use(express.urlencoded({extended:false}));
@@ -39,10 +42,10 @@ app.use(express.urlencoded({extended:false}));
 //Telling the app to use Cookie Parser
 app.use(cookieParser());
 
-app.use(express.static('./public'));
+app.use(express.static(env.asset_path));
 //app.use('/uploads', express.static(__dirname + '/uploads'));    //Making uploads path available to the browser
 
-app.use(logger(logs.morgan.mode, logs.morgan.options));
+app.use(logger(env.morgan.mode, env.morgan.options));
 
 //Setting View Engine
 app.set('view engine', 'ejs');
